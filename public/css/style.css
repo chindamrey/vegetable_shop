@@ -1,6 +1,11 @@
+@font-face {
+    font-family: 'battambong';
+    src: url('/fonts/Battambang-Regular.ttf') format('truetype');
+    
+}
 body{
-    font-family: 'Popins',sans-serif;
-    font-weight: 500;
+    font-family: 'battambong',sans-serif;
+    
 }
 .product-list{
     height: 100vh;
@@ -105,6 +110,6 @@ body{
 }
 /* ---------- create product page  ------------------*/
 .create-product-page{
-  height: 100vh;
-  background-color: purple;
+  font-size: 18px;
+  background-color: #E2F2E6;
 }
