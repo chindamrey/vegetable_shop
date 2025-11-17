@@ -1,0 +1,14 @@
+Vegetable Project
+
+plan
+feature
+-database 
+ .flow chart	done
+ .relationship  done
+
+_ product management
+ .show product for update and delete ,add new product
+ .view invoice in show by date create and use invoice name by current date(211025) and show by today yester day this week this month 
+ .can view income by week, month, day
+ ----------color---------
+ background: CCD4CF
