@@ -113,3 +113,16 @@ body{
   font-size: 18px;
   background-color: #E2F2E6;
 }
+/*---------------------- show all product page --------------- */
+.show-product-page{
+  /* background-color: #E2F2E6; */
+  height: 85vh;
+}
+.show-product-page .product-display{
+  height: 83vh;
+  overflow-y: scroll;
+
+}
+.product-display table tbody tr td{
+ align-content: center;
+}

@@ -1,3 +1,5 @@
+const { jsx } = require("react/jsx-runtime");
+
 //============== script for order and invoice ===============
 let pName;
 let net;
@@ -10,6 +12,7 @@ let isHave = false;
 let eachPrice;
 let overrideItem;
 let modal;
+
 
 function orderProduct(id) {
     fetch(`/product-data/${id}`)
@@ -30,6 +33,41 @@ function orderProduct(id) {
         });
 
 }
+function getUpdateProduct(id) {
+    localStorage.setItem('id',id);
+    fetch(`/product-data/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('itemName').value=data.p_name;
+            document.getElementById('itemPrice').value=data.p_price;
+       
+        });
+
+}
+function updateProduct(){
+    let id=localStorage.getItem('id');
+    let name=document.getElementById('itemName').value;
+    let price=document.getElementById('itemPrice').value;
+    let data={
+        'p_name':name,
+        'p_price':price
+    }
+    
+    fetch(`/manageProduct/update/${id}`,{
+        method: 'PUT',
+        headers:{'Content-type':'application/json',
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body:JSON.stringify(data)
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        // alert(data.message);
+        location.reload();
+    })
+}
+//------------------------------- save update product 
+
 window.onload = function () {
     generateInvoicNO();
 }

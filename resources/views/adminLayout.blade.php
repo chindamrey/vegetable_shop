@@ -5,6 +5,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/7.0.1/css/all.min.css"/>
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <title>admin</title>
@@ -30,9 +32,8 @@
                                 <div class="list-group ">
                                     <a href="#" class="btn-menu list-group-item list-group-item-action ps-3">ចំណូល</a>
                                     <a href="#" class="btn-menu list-group-item list-group-item-action ps-3">គ្រប់គ្រងទំនិញ</a>
-                                    <a href="#" class="btn-menu list-group-item list-group-item-action ps-5" >បន្ថែមទំនិញថ្មី</a>
-                                    <a href="#" class="btn-menu list-group-item list-group-item-action ps-5">កែប្រែទំនិញ</a>
-                                    <a href="#" class="btn-menu list-group-item list-group-item-action ps-5">លុបទំនិញ</a>
+                                    <a href="manageProduct/createProduct.blade.php" class="btn-menu list-group-item list-group-item-action ps-5" >បន្ថែមទំនិញថ្មី</a>
+                                    <a href="#" class="btn-menu list-group-item list-group-item-action ps-5">ទាំងអស់</a>
                                     <a href="#" class="btn-menu list-group-item list-group-item-action ps-3">វិក្កយបត្រ</a>
                                     <a href="#" class="btn-menu list-group-item list-group-item-action ps-5">វិក្កយបត្រទាំងអស់</a>
                                     <a href="#" class="btn-menu list-group-item list-group-item-action ps-5">កែវិក្កយបត្រ</a>
