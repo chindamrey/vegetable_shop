@@ -44,6 +44,7 @@ function getUpdateProduct(id) {
         });
 
 }
+//------------------------------- update product 
 function updateProduct(){
     let id=localStorage.getItem('id');
     let name=document.getElementById('itemName').value;
@@ -63,10 +64,10 @@ function updateProduct(){
     .then(res=>res.json())
     .then(data=>{
         // alert(data.message);
-        location.reload();
+        // location.reload();
     })
 }
-//------------------------------- save update product 
+
 
 window.onload = function () {
     generateInvoicNO();
@@ -94,7 +95,30 @@ function updateClock() {
 setInterval(() => {
     updateClock();
 }, 1000);
-
+//---------------------- get delete 
+function getDelete(id){
+    localStorage.setItem('id',id);
+    fetch(`/product-data/${id}`)
+        .then(response => response.json())
+        .then(data => {
+            document.getElementById('delete-name').innerText= data.p_name;
+            console.log(data.p_name);
+        });
+}
+//-------------------- delete product 
+function deleteProduct(){
+    let id=localStorage.getItem('id');
+    fetch(`/manageProduct/delete/${id}`,{
+        method:"DELETE",
+        headers:{
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        location.reload();
+    })
+}
 function exportInvoice() {
     const element = document.getElementById("invoice");
 
