@@ -1,4 +1,4 @@
-const { jsx } = require("react/jsx-runtime");
+// const { jsx } = require("react/jsx-runtime");
 
 //============== script for order and invoice ===============
 let pName;
@@ -14,6 +14,16 @@ let overrideItem;
 let modal;
 
 
+//---------------------------- load invoice info ------------------------------
+fetch(`/invoiceInfo`)
+.then(res=>res.json())
+.then(data=>{
+    data.forEach(element => {
+        document.getElementById('invoiceTitle').innerText=element.name;
+        document.getElementById('invoiceDescription').innerText=element.description;
+        document.getElementById('invoicePhoneNumber').innerText=element.phone_number;
+    });
+})
 function orderProduct(id) {
     fetch(`/product-data/${id}`)
         .then(response => response.json())
@@ -21,18 +31,34 @@ function orderProduct(id) {
             pName = data.p_name;
             price = data.p_price;
             document.getElementById('product-title').innerText = data.p_name;
-            document.getElementById('modal-body-content').innerHTML =
-                `
-        <p>តម្លៃ​  <strong>${data.p_price}</strong> រៀល</p>
-        <label for="" class="form-label">ចំនួនគីឡូ</label>
-        <input type="Number" class="form-control" id="net" placeholder="ឧទាហរណ៍ : 0.5,1,2,3,4">
-        <span id="weightStatus"></span>
-        `;
-            modal = new bootstrap.Modal(document.getElementById('productModal'));
-            modal.show();
+            document.getElementById('productPrice').innerHTML =data.p_price;
         });
 
 }
+//------------------------------ create product 
+function createProduct(){
+    // alert();
+   event.preventDefault();
+    let data={
+        p_name: document.getElementById('pName').value,
+        p_price: document.getElementById('pPrice').value
+    }
+    console.log(data);
+    fetch(`/manageProduct/create`,{
+        method: "post",
+        headers:{
+            'Content-type':'application/json',
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body:JSON.stringify(data)
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        alert();
+        console.log(data.message);
+    })
+}
+//------------------------------ get update product id 
 function getUpdateProduct(id) {
     localStorage.setItem('id',id);
     fetch(`/product-data/${id}`)
@@ -168,8 +194,7 @@ function checkItem(itemInList, newItem) {
 
 function addTable() {
     if (net != 0) {
-        // modal = new bootstrap.Modal(document.getElementById('productModal'));
-        modal.hide();
+       
         number++;
         let table = document.getElementById('invoice').querySelector('tbody');
         let numRows = document.getElementById('invoice');

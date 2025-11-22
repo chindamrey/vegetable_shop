@@ -4,14 +4,28 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\crud_product;
+use App\Models\CustomInvoice;
 use ResourceBundle;
 use Symfony\Component\Console\Completion\Output\FishCompletionOutput;
 
 class CrudProductController extends Controller
 {
+    public function createProduct(Request $request) 
+    {
+        $validated=$request->validate([
+            'p_name'=>'required|string',
+            'p_price'=>'required|numeric'
+        ]);
+        $product=crud_product::create($validated);
+        return response()->json([
+            'message'=>'Create product successfully',
+            'data'=>$product
+        ],201);
+    }
     public function getAllProduct()
     {
         $data = crud_product::all();
+        
         return view('index', compact('data'));
     }
     public function getAllProduct1()
@@ -47,5 +61,15 @@ class CrudProductController extends Controller
         }
         $product->delete();
         return response()->json(['message'=>'Deleted successfully']);
+    }
+    public function invoicePage()
+    {
+        $data=CustomInvoice::all();
+        return view('invoice.customInvoice',compact('data'));
+    }
+    public function getInvoiceInfo()
+    {
+        $data=CustomInvoice::all();
+        return response()->json($data);
     }
 }

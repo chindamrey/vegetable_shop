@@ -27,7 +27,7 @@
 
                                         <h5 class="text-truncate prouct-title">{{ $d->p_name }}</h5>
                                         <p>តម្លៃ: <b>{{ $d->p_price }}</b> រៀល</p>
-                                        <button type="button" class="btn btn-success"
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#productModal"
                                             onclick="orderProduct({{ $d->id }})">កម្មង់</button>
                                     </div>
                                 </div>
@@ -41,16 +41,17 @@
                     <div class="invoice" id="full-invoice">
                         <!-- Header -->
                         <div class="invoice-header">
-                            <div class="shop-name">ហាងបន្លែ បឹងកេងកង </div>
-                            <p class="shop-info">
-                                មានលក់បន្លែគ្រប់មុខ​ បោះដុំ និង​ លក់រាយ<br>
-                            </p>
+                            <div class="shop-name" id="invoiceTitle"></div>
+                            <div class="shop-info d-flex justify-content-center">
+                                <p class="w-75 pt-1 fs-6" id="invoiceDescription"></p>
+                                
+                            </div>
 
                             <!-- Contact & Invoice Info -->
                             <div class="row invoice-info">
                                 <div class="col-6 text-start">
 
-                                    <p>លេខទូរស័ព្ទ៖ <strong>098 880449</strong></p>
+                                    <p>លេខទូរស័ព្ទ៖ <strong id="invoicePhoneNumber"></strong></p>
                                     <span>លេខវិក័យប័ត្រ៖ <strong id="invoiceNo"></strong></span><br>
                                 </div>
                                 <div class="col-6 text-end">
@@ -94,7 +95,7 @@
         </div>
     </main>
 
-    <!-- Modal -->
+    <!-- Modal order product -->
     <div class="modal fade" id="productModal" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered">
             <div class="modal-content">
@@ -103,12 +104,15 @@
                     <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
                 </div>
                 <div class="modal-body" id="modal-body-content">
-                    Loading...
+                    <p>តម្លៃ​ <strong id="productPrice"></strong> រៀល</p>
+                    <label for="" class="form-label">ចំនួនគីឡូ</label>
+                    <input type="Number" class="form-control" id="net" placeholder="ឧទាហរណ៍ : 0.5,1,2,3,4">
+                    <span id="weightStatus"></span>
 
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn " data-bs-dismiss="modal">បោះបង់</button>
-                    <button type="button" class="btn btn-success" onclick="comfirm()">យល់ព្រម</button>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="comfirm()">យល់ព្រម</button>
 
                 </div>
             </div>
