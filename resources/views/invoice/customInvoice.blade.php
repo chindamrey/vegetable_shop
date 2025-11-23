@@ -9,13 +9,13 @@
                
                     <div class="shop-name d-flex justify-content-center" id="">
                         @foreach ($data as $d )
-                        
-                        <input type="text" class="form-control w-50 fs-3 text-center text-primary" value="{{ $d->name }}">
+                        <p class="d-none" id="id">{{ $d->id }}</p>
+                        <input type="text" class="form-control w-50 fs-3 text-center text-primary" id="name" value="{{ $d->name }}">
                         
                     </div>
                     <div class="shop-info d-flex justify-content-center">
                         {{-- <p class="w-75 pt-1 fs-6" id="invoiceDescription"></p> --}}
-                        <textarea class="form-control mt-3 w-75" name="" id="" value="hee">{{ $d->description }}</textarea>
+                        <textarea class="form-control mt-3 w-75" name="" id="description" value="hee">{{ $d->description }}</textarea>
 
                     </div>
 
@@ -24,7 +24,7 @@
                         <div class="col-8 text-start">
                             <div class="d-flex align-items-center mb-3">
                                 <label for="" class="from-label me-4">លេខទូរស័ព្ទ៖</label>
-                                <input type="text" id="" class="form-control w-50" value="{{ $d->phone_number }}">
+                                <input type="text" id="phone_number" class="form-control w-50" value="{{ $d->phone_number }}">
                             </div>
                             @endforeach
                             <span>លេខវិក័យប័ត្រ៖ <strong id="invoiceNo"></strong></span><br>
@@ -63,7 +63,7 @@
 
                 </table>
                 <div class="d-flex justify-content-end">
-                    <button class="btn btn-success print-invoice"><i class="fa-regular fa-floppy-disk"></i>
+                    <button class="btn btn-success print-invoice" onclick="customInvoice()"><i class="fa-regular fa-floppy-disk"></i>
                         រក្សាទុក</button>
                 </div>
             </div>

@@ -17,3 +17,5 @@ Route::post('/manageProduct/create',[CrudProductController::class,'createProduct
 Route::get('invoice/customInvoice',[CrudProductController::class,'invoicePage']); 
 //--------------------------------- get invoice info ----------------------------
 Route::get('/invoiceInfo',[CrudProductController::class,'getInvoiceInfo']);
+//--------------------------------- custom invoice ------------------------------
+Route::put('/invoice/update/{id}',[CrudProductController::class,'customInvoice']);
