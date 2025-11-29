@@ -2,6 +2,7 @@
 
 //============== script for order and invoice ===============
 let pName;
+let productId;
 let net;
 let price;
 let total;
@@ -12,138 +13,166 @@ let isHave = false;
 let eachPrice;
 let overrideItem;
 let modal;
-
+let pay;
+let itemSale = [];
+let invoice = [];
 
 //---------------------------- load invoice info ------------------------------
 fetch(`/invoiceInfo`)
-.then(res=>res.json())
-.then(data=>{
-    data.forEach(element => {
-        document.getElementById('invoiceTitle').innerText=element.name;
-        document.getElementById('invoiceDescription').innerText=element.description;
-        document.getElementById('invoicePhoneNumber').innerText=element.phone_number;
-    });
-})
+    .then(res => res.json())
+    .then(data => {
+        data.forEach(element => {
+            document.getElementById('invoiceTitle').innerText = element.name;
+            document.getElementById('invoiceDescription').innerText = element.description;
+            document.getElementById('invoicePhoneNumber').innerText = element.phone_number;
+        });
+    })
+//---------------------------- get all invoice --------------------------------
+
 function orderProduct(id) {
     fetch(`/product-data/${id}`)
         .then(response => response.json())
         .then(data => {
             pName = data.p_name;
             price = data.p_price;
+            productId = data.id;
             document.getElementById('product-title').innerText = data.p_name;
-            document.getElementById('productPrice').innerHTML =data.p_price;
+            document.getElementById('productPrice').innerHTML = data.p_price;
         });
 
 }
 //------------------------------ create product 
-function createProduct(){
+function createProduct() {
     // alert();
-   event.preventDefault();
-    let data={
+    event.preventDefault();
+    let data = {
         p_name: document.getElementById('pName').value,
         p_price: document.getElementById('pPrice').value
     }
     console.log(data);
-    fetch(`/manageProduct/create`,{
+    fetch(`/manageProduct/create`, {
         method: "post",
-        headers:{
-            'Content-type':'application/json',
+        headers: {
+            'Content-type': 'application/json',
             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
-        body:JSON.stringify(data)
+        body: JSON.stringify(data)
     })
-    .then(res=>res.json())
-    .then(data=>{
-        alert();
-        console.log(data.message);
-    })
+        .then(res => res.json())
+        .then(data => {
+            alert();
+            console.log(data.message);
+        })
 }
 //------------------------------ get update product id 
 function getUpdateProduct(id) {
-    localStorage.setItem('id',id);
+    localStorage.setItem('id', id);
     fetch(`/product-data/${id}`)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('itemName').value=data.p_name;
-            document.getElementById('itemPrice').value=data.p_price;
-       
+            document.getElementById('itemName').value = data.p_name;
+            document.getElementById('itemPrice').value = data.p_price;
+
         });
 
 }
 //------------------------------- update product 
-function updateProduct(){
-    let id=localStorage.getItem('id');
-    let name=document.getElementById('itemName').value;
-    let price=document.getElementById('itemPrice').value;
-    let data={
-        'p_name':name,
-        'p_price':price
+function updateProduct() {
+    let id = localStorage.getItem('id');
+    let name = document.getElementById('itemName').value;
+    let price = document.getElementById('itemPrice').value;
+    let data = {
+        'p_name': name,
+        'p_price': price
     }
-    
-    fetch(`/manageProduct/update/${id}`,{
+
+    fetch(`/manageProduct/update/${id}`, {
         method: 'PUT',
-        headers:{'Content-type':'application/json',
+        headers: {
+            'Content-type': 'application/json',
             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
-        body:JSON.stringify(data)
+        body: JSON.stringify(data)
     })
-    .then(res=>res.json())
-    .then(data=>{
-        // alert(data.message);
-        // location.reload();
+        .then(res => res.json())
+        .then(data => {
+            // alert(data.message);
+            // location.reload();
+        })
+}
+//------------------------------- sale product --------------------------
+function saleProduct() {
+
+
+    fetch('/index/sale', {
+        method: "post",
+        headers: {
+            'Content-Type': 'application/json',
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify(itemSale)
     })
+        .then(res => res.json())
+        .then(data => {
+            alert();
+            console.log(data);
+            invoiceHeader(pay);
+        })
 }
 
 
-window.onload = function () {
-    generateInvoicNO();
-}
-function generateInvoicNO() {
-    let date = new Date();
-    let year = date.getFullYear().toString().slice(-2);
-    let month = String(date.getMonth() + 1).padStart(2, '0');
-    let day = String(date.getDate());
-    let random = Math.floor(1000 + Math.random() * 9000);
-    document.getElementById('invoiceNo').innerText = `${day}${month}${year}-${random}`;
-}
+// window.onload = function () {
+//     generateInvoicNO();
+// }
+
 
 function updateClock() {
     let now = new Date();
     let hours = String(now.getHours()).padStart(2, '0');
     let minutes = String(now.getMinutes()).padStart(2, '0');
-    let second = String(now.getSeconds()).padStart(2, '0');
-    let ampm = (hours >= 12) ? 'PM' : 'AM';
+    let ampm = (hours >= 12) ? 'រសៀល' : 'ព្រឹក';
     hours = hours % 12;
     document.getElementById('date').innerText = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`;
-    document.getElementById('clock').innerText = `${hours}:${minutes}${ampm}`;
+    document.getElementById('clock').innerText = `${hours}:${minutes} ${ampm}`;
 
 }
+//----------------------------------------- data and time ------------------------------------
+function dateTime() {
+    let now = new Date();
+    let hours = String(now.getHours()).padStart(2, '0');
+    let minutes = String(now.getMinutes()).padStart(2, '0');
+    let ampm = (hours >= 12) ? 'រសៀល' : 'ព្រឹក';
+    hours = hours % 12;
+    return `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} ${hours}:${minutes} ${ampm}`;
+
+}
+console.log(`here's current date now ${dateTime()}`);
 setInterval(() => {
     updateClock();
 }, 1000);
 //---------------------- get delete 
-function getDelete(id){
-    localStorage.setItem('id',id);
+function getDelete(id) {
+    localStorage.setItem('id', id);
     fetch(`/product-data/${id}`)
         .then(response => response.json())
         .then(data => {
-            document.getElementById('delete-name').innerText= data.p_name;
+            document.getElementById('delete-name').innerText = data.p_name;
             console.log(data.p_name);
         });
 }
 //-------------------- delete product 
-function deleteProduct(){
-    let id=localStorage.getItem('id');
-    fetch(`/manageProduct/delete/${id}`,{
-        method:"DELETE",
-        headers:{
+function deleteProduct() {
+    let id = localStorage.getItem('id');
+    fetch(`/manageProduct/delete/${id}`, {
+        method: "DELETE",
+        headers: {
             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
     })
-    .then(res=>res.json())
-    .then(data=>{
-        location.reload();
-    })
+        .then(res => res.json())
+        .then(data => {
+            location.reload();
+        })
 }
 function exportInvoice() {
     const element = document.getElementById("invoice");
@@ -181,6 +210,7 @@ function payment() {
 
     }
     document.getElementById('sumPrice').innerText = Math.trunc(payment.toFixed(2));
+    pay = document.getElementById('sumPrice').innerText = Math.trunc(payment.toFixed(2));
 }
 
 function checkItem(itemInList, newItem) {
@@ -194,7 +224,7 @@ function checkItem(itemInList, newItem) {
 
 function addTable() {
     if (net != 0) {
-       
+
         number++;
         let table = document.getElementById('invoice').querySelector('tbody');
         let numRows = document.getElementById('invoice');
@@ -223,6 +253,7 @@ function addTable() {
             newRow.insertCell(3).innerText = net;
             newRow.insertCell(4).innerText = total.toFixed(2);
         }
+        // console.log(numRows);
     }
     else {
         let wStatus = document.getElementById('weightStatus');
@@ -235,14 +266,45 @@ function addTable() {
     }
 
 }
+//------------------------- array object data --------------------------
+
+function dataObj(productId, weight, pay) {
+    let now = new Date();
+    let date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
+}
 
 function comfirm() {
     net = Number(document.getElementById('net').value);
     total = price * net;
     addTable();
     payment();
+    // dataObj(productId,net,pay);
+    itemSale.push({ 'invoice_id':localStorage.getItem('invoiceId'),'product_id': productId, 'weight': net });
+    // console.log(itemSale)
 
 
 }
+//-------------------------------- insert invoice header ------------------------------
+function invoiceHeader(total)
+{
+    let data={
+        'invoice_id' : localStorage.getItem('invoiceId'),
+        'total' : total,
+        'date' : dateTime()
+    };
+    fetch(`/invoice/headerCreate`,{
+        method: "post",
+        headers:{
+            'Content-Type': 'application/json',
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        console.log(data);
+    })
+}
+
 //=====================end=========================
 

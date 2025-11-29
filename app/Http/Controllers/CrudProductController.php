@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\crud_product;
 use App\Models\CustomInvoice;
+use App\Models\Invoice;
 use ResourceBundle;
 use Symfony\Component\Console\Completion\Output\FishCompletionOutput;
 

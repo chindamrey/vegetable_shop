@@ -4,6 +4,8 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     <link rel="stylesheet" href="{{ asset('css/bootstrap.css') }}">
     <link rel="stylesheet" href="{{ asset('css/style.css') }}">
     <link
@@ -27,7 +29,8 @@
 
                                         <h5 class="text-truncate prouct-title">{{ $d->p_name }}</h5>
                                         <p>តម្លៃ: <b>{{ $d->p_price }}</b> រៀល</p>
-                                        <button type="button" class="btn btn-success" data-bs-toggle="modal" data-bs-target="#productModal"
+                                        <button type="button" class="btn btn-success" data-bs-toggle="modal"
+                                            data-bs-target="#productModal"
                                             onclick="orderProduct({{ $d->id }})">កម្មង់</button>
                                     </div>
                                 </div>
@@ -44,7 +47,7 @@
                             <div class="shop-name" id="invoiceTitle"></div>
                             <div class="shop-info d-flex justify-content-center">
                                 <p class="w-75 pt-1 fs-6" id="invoiceDescription"></p>
-                                
+
                             </div>
 
                             <!-- Contact & Invoice Info -->
@@ -86,8 +89,9 @@
                                 </tfoot>
 
                             </table>
-                            <button class="btn btn-success print-invoice"
-                                onclick="window.print(),generateInvoicNO()">ទាញយកវិក្កយបត្រ</button>
+                            <button class="btn btn-success print-invoice" {{--
+                                onclick="window.print(),generateInvoicNO()">ទាញយកវិក្កយបត្រ</button> --}}
+                            onclick="saleProduct()">ទាញយកវិក្កយបត្រ</button>
                         </div>
                     </div>
                 </div>
@@ -112,13 +116,35 @@
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn " data-bs-dismiss="modal">បោះបង់</button>
-                    <button type="button" class="btn btn-success" data-bs-dismiss="modal" onclick="comfirm()">យល់ព្រម</button>
+                    <button type="button" class="btn btn-success" data-bs-dismiss="modal"
+                        onclick="comfirm()">យល់ព្រម</button>
 
                 </div>
             </div>
         </div>
     </div>
     <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+    <script>
+        let lastInvoice;
+        //---------------------------- get all invoice --------------------------------
+        alert();
+        fetch(`/index/all`)
+            .then(res => res.json())
+            .then(data => {
+                lastInvoice = data.data.invoice_id;
+                console.log(data);
+                const year = new Date().getFullYear();
+                
+                    const lastNumber = parseInt(lastInvoice.slice(-4), 10);
+                    const nextNumber = lastNumber + 1;
+                    
+                    // Pad with zeros
+                    const padded = nextNumber.toString().padStart(4, '0');
+                    lastInvoice=`INV${year}-${padded}`;
+                    localStorage.setItem('invoiceId', lastInvoice);
+                document.getElementById('invoiceNo').innerText=lastInvoice;
+            })
+    </script>
     <script src="{{ asset('js/script.js') }}"></script>
 </body>
 

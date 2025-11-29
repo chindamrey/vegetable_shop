@@ -12,3 +12,11 @@ _ product management
  .can view income by week, month, day
  ----------color---------
  background: CCD4CF
+
+ next day:
+
+    + get last id on invoice table and generate like INV2025-0002
+
+    + send order and invoice header both table
+
+    + and display invoice on manage invoice page with button like view | print that invoice and delete also
