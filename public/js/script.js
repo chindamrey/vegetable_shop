@@ -174,6 +174,25 @@ function deleteProduct() {
             location.reload();
         })
 }
+//-------------------------- custom invoice ---------------------------
+function customInvoice(){
+    let data={
+        name : document.getElementById('name').value,
+        description : document.getElementById('description').value,
+        phone_number : document.getElementById('phone_number').value,
+    }
+    fetch(`/invoice/update/${document.getElementById('id').innerText}`,{
+        method: 'PUT',
+        headers:{'Content-type':'application/json',
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        },
+        body: JSON.stringify(data)
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        console.log(data);
+    })
+}
 function exportInvoice() {
     const element = document.getElementById("invoice");
 

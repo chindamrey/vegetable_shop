@@ -73,4 +73,18 @@ class CrudProductController extends Controller
         $data=CustomInvoice::all();
         return response()->json($data);
     }
+    public function customInvoice(Request $request,$id)
+    {
+        $data=CustomInvoice::find($id);
+        if(!$data){
+            return response()->json([
+                'message'=>'Id not found'
+            ],404);
+        }
+        $data->update($request->only(['name','description','phone_number']));
+        return response()->json([
+            'message'=> 'updated successfully',
+            'data'=>$data
+        ]);
+    }
 }
