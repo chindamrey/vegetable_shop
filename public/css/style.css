@@ -119,10 +119,16 @@ body{
   height: 85vh;
 }
 .show-product-page .product-display{
-  height: 83vh;
+  /* height: 83vh; */
   overflow-y: scroll;
 
 }
+
 .product-display table tbody tr td{
  align-content: center;
+
+}
+.content{
+  overflow-y: scroll;
+  
 }

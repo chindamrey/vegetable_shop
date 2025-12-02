@@ -26,3 +26,5 @@ Route::get('/index/all',[CSaleProduct::class,'getLastInvoice']);
 Route::post('/invoice/headerCreate',[CSaleProduct::class,'invoiceHeader']);
 //-------------------------------- get all invoice ------------------------------
 Route::get('/invoice/allInvoice',[CSaleProduct::class,'getAllInvoice']);
+//--------------------------------- open invoice ------------------------------
+Route::get('/invoice/openInvoie/{id}',[CSaleProduct::class,'openInvoice']) ;

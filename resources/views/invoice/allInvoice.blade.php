@@ -19,10 +19,9 @@
                         @foreach ($data as $d)
                             <tr>
                                 <td>{{ $d->invoice_id}}</td>
-                                <td class="text-center"><span class="text-success fw-bold">{{ $d->total }} </span> រៀល</td>
+                                <td class="text-center"><span class="text-danger fs-5 fw-bold">{{ $d->total }} </span> រៀល</td>
                                 <td class="text-center fw-bold">{{ $d->date }}</td>
-                                <td class="text-end"><button class="btn btn-outline-primary" onclick="getUpdateProduct({{ $d->id }})" data-bs-toggle="modal"
-                                        data-bs-target="#viewInvoice"><i class="fa-regular fa-pen-to-square"></i> មើល</button>
+                                <td class="text-end"><button onclick="showInvoice('{{$d->invoice_id}}')" class="btn btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i> មើល</button>
                                         <button class="btn btn-outline-success" onclick="getUpdateProduct({{ $d->id }})" data-bs-toggle="modal"
                                         data-bs-target="#update-item"><i class="fa-solid fa-download"></i> ទាញយក</button>
                                     <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-item" onclick="getDelete({{ $d->id }})"><i class="fa-regular fa-trash-can"></i> លុប</button>

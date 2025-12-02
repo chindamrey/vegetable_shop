@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Invoice;
 use Illuminate\Http\Request;
 use App\Models\SaleProduct;
+use Illuminate\Support\Facades\DB;
 
 class CSaleProduct extends Controller
 {
@@ -51,5 +52,18 @@ class CSaleProduct extends Controller
         $data=Invoice::all();
         return view('invoice.allInvoice',compact('data'));
        
+    }
+    //------------------------------ open invoice -----------------------------
+    public function openInvoice($id)
+    {
+        $data=DB::table('tbl_sale as sale')
+        ->join('tbl_product as product','sale.product_id','=','product.id')
+        ->select('sale.invoice_id','product.p_name','product.p_price','sale.weight')
+        ->where('sale.invoice_id','=',$id)
+        ->get();
+        return response()->json([
+            'message'=>'Invoice Open',
+            'data'=>$data
+        ],201);
     }
 }

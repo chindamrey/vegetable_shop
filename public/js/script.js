@@ -324,6 +324,15 @@ function invoiceHeader(total)
         console.log(data);
     })
 }
+// show invoice 
+function showInvoice(data){
+    fetch(`/invoice/openInvoie/${data}`,{
 
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        console.log(data);
+    })
+}
 //=====================end=========================
 

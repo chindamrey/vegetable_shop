@@ -14,9 +14,10 @@ _ product management
  background: CCD4CF
 
  next day:
+ note: when add done should reload or get new invoice id from table
 
     + get last id on invoice table and generate like INV2025-0002
 
     + send order and invoice header both table
 
-    + and display invoice on manage invoice page with button like view | print that invoice and delete also
+    + and display invoice on manage invoice page with button like view( test on console done just add it to modal table ) | print that invoice and delete also
