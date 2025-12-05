@@ -58,7 +58,8 @@ class CSaleProduct extends Controller
     {
         $data=DB::table('tbl_sale as sale')
         ->join('tbl_product as product','sale.product_id','=','product.id')
-        ->select('sale.invoice_id','product.p_name','product.p_price','sale.weight')
+        ->join('tbl_invoice as invoice','sale.invoice_id','=','invoice.id')
+        ->select('sale.invoice_id','invoice.invoice_id','product.p_name','product.p_price','sale.weight','invoice.total','invoice.date')
         ->where('sale.invoice_id','=',$id)
         ->get();
         return response()->json([

@@ -8,6 +8,6 @@ class Invoice extends Model
 {
      protected $table='tbl_invoice';
 
-    protected $fillable = ['invoice_id','total','date'];
+    protected $fillable = ['id','invoice_id','total','date'];
    
 }

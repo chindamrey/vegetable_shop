@@ -175,23 +175,24 @@ function deleteProduct() {
         })
 }
 //-------------------------- custom invoice ---------------------------
-function customInvoice(){
-    let data={
-        name : document.getElementById('name').value,
-        description : document.getElementById('description').value,
-        phone_number : document.getElementById('phone_number').value,
+function customInvoice() {
+    let data = {
+        name: document.getElementById('name').value,
+        description: document.getElementById('description').value,
+        phone_number: document.getElementById('phone_number').value,
     }
-    fetch(`/invoice/update/${document.getElementById('id').innerText}`,{
+    fetch(`/invoice/update/${document.getElementById('id').innerText}`, {
         method: 'PUT',
-        headers:{'Content-type':'application/json',
+        headers: {
+            'Content-type': 'application/json',
             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
         body: JSON.stringify(data)
     })
-    .then(res=>res.json())
-    .then(data=>{
-        console.log(data);
-    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+        })
 }
 function exportInvoice() {
     const element = document.getElementById("invoice");
@@ -298,41 +299,59 @@ function comfirm() {
     addTable();
     payment();
     // dataObj(productId,net,pay);
-    itemSale.push({ 'invoice_id':localStorage.getItem('invoiceId'),'product_id': productId, 'weight': net });
+    itemSale.push({ 'invoice_id': localStorage.getItem('invoiceId'), 'product_id': productId, 'weight': net });
+    alert(localStorage.getItem('invoiceId'))
     // console.log(itemSale)
 
 
 }
 //-------------------------------- insert invoice header ------------------------------
-function invoiceHeader(total)
-{
-    let data={
-        'invoice_id' : localStorage.getItem('invoiceId'),
-        'total' : total,
-        'date' : dateTime()
+function invoiceHeader(total) {
+    let data = {
+        'invoice_id': localStorage.getItem('invoiceNumber'),
+        'total': total,
+        'date': dateTime()
     };
-    fetch(`/invoice/headerCreate`,{
+    fetch(`/invoice/headerCreate`, {
         method: "post",
-        headers:{
+        headers: {
             'Content-Type': 'application/json',
             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         },
         body: JSON.stringify(data)
     })
-    .then(res=>res.json())
-    .then(data=>{
-        console.log(data);
-    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+        })
 }
 // show invoice 
-function showInvoice(data){
-    fetch(`/invoice/openInvoie/${data}`,{
+function showInvoice(data) {
+    
+    fetch(`/invoice/openInvoie/${data}`, {
 
     })
-    .then(res=>res.json())
-    .then(data=>{
-        console.log(data);
-    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data);
+
+            let total;
+            data.data.forEach(element => {
+                // total= element.total;
+                document.getElementById('sumPrice').innerText =   Math.trunc(element.total);
+                document.getElementById('invoiceDate').innerText = element.date;
+                document.getElementById('invoiceNo').innerText = element.invoice_id;
+                document.getElementById('tblInvoice').innerHTML +=
+                `<tr>
+                <td>${element.invoice_id}</td>
+                <td>${element.p_name}</td>
+                <td>${element.p_price}</td>
+                <td>${element.weight}</td>
+                <td>${element.p_price * element.weight}</td>
+                </tr>`;
+            });
+           
+        })
 }
 //=====================end=========================
 

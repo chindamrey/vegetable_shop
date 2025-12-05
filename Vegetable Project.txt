@@ -21,3 +21,14 @@ _ product management
     + send order and invoice header both table
 
     + and display invoice on manage invoice page with button like view( test on console done just add it to modal table ) | print that invoice and delete also
+
+    + issuse : on table sale should store id of invoice table like inside invoice table have 10 and then sale table in field invoice id should 10 also
+
+      - logic : first select last id of invoice table. and when u insert data to table sale should add id of the last invoic id+1 also
+
+on 5/12/25 
+  - completed on open invoice 
+
+  - issuse : the modal has still store old value when close the modal 
+
+  - continue : on all invoice add print or download function and delete invoice also 

@@ -1,4 +1,3 @@
-
 @extends('adminLayout')
 @section('content')
     <div class="d-flex justify-content-center mb-4">
@@ -19,12 +18,16 @@
                         @foreach ($data as $d)
                             <tr>
                                 <td>{{ $d->invoice_id}}</td>
-                                <td class="text-center"><span class="text-danger fs-5 fw-bold">{{ $d->total }} </span> រៀល</td>
+                                <td class="text-center"><span class="text-danger fs-5 fw-bold" id="invoicePrice">{{ $d->total}} </span> រៀល</td>
                                 <td class="text-center fw-bold">{{ $d->date }}</td>
-                                <td class="text-end"><button onclick="showInvoice('{{$d->invoice_id}}')" class="btn btn-outline-primary"><i class="fa-regular fa-pen-to-square"></i> មើល</button>
-                                        <button class="btn btn-outline-success" onclick="getUpdateProduct({{ $d->id }})" data-bs-toggle="modal"
-                                        data-bs-target="#update-item"><i class="fa-solid fa-download"></i> ទាញយក</button>
-                                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-item" onclick="getDelete({{ $d->id }})"><i class="fa-regular fa-trash-can"></i> លុប</button>
+                                <td class="text-end"><button onclick="showInvoice('{{$d->id}}')" data-bs-target="#viewInvoice"
+                                        data-bs-toggle="modal" class="btn btn-outline-primary"><i
+                                            class="fa-regular fa-pen-to-square"></i> មើល</button>
+                                    {{-- <button class="btn btn-outline-success" onclick="getUpdateProduct({{ $d->id }})"
+                                        data-bs-toggle="modal" data-bs-target="#update-item"><i
+                                            class="fa-solid fa-download"></i> ទាញយក</button> --}}
+                                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-item"
+                                        onclick="getDelete({{ $d->id }})"><i class="fa-regular fa-trash-can"></i> លុប</button>
                                 </td>
                             </tr>
                         @endforeach
@@ -34,32 +37,62 @@
         </div>
     </section>
 @endsection
-<!-- Modal edit item-->
-<div class="modal fade " id="viewInvoice" tabindex="-1" aria-labelledby="viewInvoice-label" aria-hidden="true">
-    <div class="modal-dialog modal-dialog-centered">
-        <div class="modal-content">
+<!-- Modal open invoice-->
+<div class="modal fade " id="viewInvoice" tabindex="-1" data-bs-backdrop="static" aria-labelledby="viewInvoice-label" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered modal-lg">
+        <div class="modal-content px-4 pb-5">
             <div class="modal-header">
-                <h1 class="modal-title fs-3 text-success" id="update-name">កែប្រែឈ្មោះបន្លែនិងតម្លៃនៅទីនេះ</h1>
+                <h2 class="modal-title" id="delete-name">វិក័យប័ត្រ</h2>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
-            <form onsubmit="updateProduct()">
-                    <div class="modal-body">
-                    <div class="d-flex">
-                        <div class="pe-3">
-                            <label for="" class="form-label">កែប្រែឈ្មោះបន្លែទីនេះ</label>
-                            <input type="text" class="form-control fw-bold" id="itemName" name="proName" required>
+            <div class="invoice" id="full-invoice">
+                <!-- Header -->
+                <div class="invoice-header">
+
+                    <div class="row invoice-info">
+                        <div class="col-6 text-start">
+                            <span>លេខវិក័យប័ត្រ៖ <strong id="invoiceNo"></strong></span><br>
                         </div>
-                        <div class="ps-3">
-                            <label for="" class="form-label">កែប្រែតម្លៃបន្លែទីនេះ</label>
-                            <input type="number" class="form-control fw-bold" id="itemPrice" name="proPrice" required>
+                        <div class="col-6 text-end">
+                            <p>កាលបរិច្ឆេទ៖
+                                <strong id="invoiceDate">
+
+                                </strong>
+                            </p>
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">បោះបង់</button>
-                    <button type="submit" class="btn btn-success" id="saveUpdate" data-bs-dismiss="">រក្សាទុក</button>
+                <div class="container-fluid">
+                    <table id="invoice" class="table table-bordered">
+                        <thead class="table-success">
+                            <tr>
+                                <td class="text-center" scope="col">ល.រ</td>
+                                <td class="text-center" scope="col">ឈ្មោះទំនិញ</td>
+                                <td class="text-center" scope="col">តម្លៃរាយ</td>
+                                <td class="text-center" scope="col">ទម្ងន់(គ.ក)</td>
+                                <td class="text-center" scope="col">សរុប(រៀល)</td>
+                            </tr>
+                        </thead>
+                        <tbody class="table-group-divider" id="tblInvoice">
+
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <td colspan="3" class="text-end">សរុបទឹកប្រាក់ </td>
+                                <th colspan="2" class="text-center table-success"><span id="sumPrice" class="text-danger"></span>
+                                    រៀល</th>
+                            </tr>
+                        </tfoot>
+
+                    </table>
+                    <div class="d-flex w-100  justify-content-end">
+
+                        <button class="btn btn-outline-success print-invoice" {{--
+                            onclick="window.print(),generateInvoicNO()">ទាញយកវិក្កយបត្រ</button> --}}
+                        >ទាញយកវិក្កយបត្រ</button>
+                    </div>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
@@ -76,8 +109,11 @@
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">បោះបង់</button>
-                <button type="button" class="btn btn-danger" id="" onclick="deleteProduct()" data-bs-dismiss="modal">លុប</button>
+                <button type="button" class="btn btn-danger" id="" onclick="deleteProduct()"
+                    data-bs-dismiss="modal">លុប</button>
             </div>
         </div>
     </div>
 </div>
+<script>
+</script>

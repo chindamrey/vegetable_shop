@@ -132,16 +132,17 @@
             .then(res => res.json())
             .then(data => {
                 lastInvoice = data.data.invoice_id;
+                localStorage.setItem('invoiceId', data.data.id+1);
                 console.log(data);
                 const year = new Date().getFullYear();
                 
-                    const lastNumber = parseInt(lastInvoice.slice(-4), 10);
-                    const nextNumber = lastNumber + 1;
-                    
-                    // Pad with zeros
-                    const padded = nextNumber.toString().padStart(4, '0');
-                    lastInvoice=`INV${year}-${padded}`;
-                    localStorage.setItem('invoiceId', lastInvoice);
+                const lastNumber = parseInt(lastInvoice.slice(-4), 10);
+                const nextNumber = lastNumber + 1;
+                
+                // Pad with zeros
+                const padded = nextNumber.toString().padStart(4, '0');
+                lastInvoice=`INV${year}-${padded}`;
+                localStorage.setItem('invoiceNumber',lastInvoice);
                 document.getElementById('invoiceNo').innerText=lastInvoice;
             })
     </script>
