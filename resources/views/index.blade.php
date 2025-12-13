@@ -20,7 +20,7 @@
         <div class="container-fluid">
             <div class="row">
                 <div class="col-12 col-xl-6">
-                    <div class="product-list">
+                    <div class="product-list pt-3">
                         <div class="row g-3">
                             @foreach ($data as $d)
 
@@ -40,58 +40,60 @@
 
                     </div>
                 </div>
-                <div class="col-12 col-xl-6">
-                    <div class="invoice" id="full-invoice">
-                        <!-- Header -->
-                        <div class="invoice-header">
-                            <div class="shop-name" id="invoiceTitle"></div>
-                            <div class="shop-info d-flex justify-content-center">
-                                <p class="w-75 pt-1 fs-6" id="invoiceDescription"></p>
-
-                            </div>
-
-                            <!-- Contact & Invoice Info -->
-                            <div class="row invoice-info">
-                                <div class="col-6 text-start">
-
-                                    <p>លេខទូរស័ព្ទ៖ <strong id="invoicePhoneNumber"></strong></p>
-                                    <span>លេខវិក័យប័ត្រ៖ <strong id="invoiceNo"></strong></span><br>
+                <div class="col-12 col-xl-6 pt-3">
+                    <div class="print-area ">
+                        <div class="invoice print-area" id="full-invoice">
+                            <!-- Header -->
+                            <div class="invoice-header">
+                                <div class="shop-name" id="invoiceTitle"></div>
+                                <div class="shop-info d-flex justify-content-center">
+                                    <p class="w-75 pt-1 fs-6" id="invoiceDescription"></p>
+    
                                 </div>
-                                <div class="col-6 text-end">
-                                    <p>កាលបរិច្ឆេទ៖
-                                        <strong id="date">
-
-                                        </strong>
-                                        <b id="clock"></b>
-                                    </p>
+    
+                                <!-- Contact & Invoice Info -->
+                                <div class="row invoice-info">
+                                    <div class="col-6 text-start">
+    
+                                        <p>លេខទូរស័ព្ទ៖ <strong id="invoicePhoneNumber"></strong></p>
+                                        <span>លេខវិក័យប័ត្រ៖ <strong id="invoiceNo"></strong></span><br>
+                                    </div>
+                                    <div class="col-6 text-end">
+                                        <p>កាលបរិច្ឆេទ៖
+                                            <strong id="date">
+    
+                                            </strong>
+                                            <b id="clock"></b>
+                                        </p>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="container-fluid">
-                            <table id="invoice" class="table table-bordered">
-                                <thead class="table-success">
-                                    <tr>
-                                        <td class="text-center" scope="col">ល.រ</td>
-                                        <td class="text-center" scope="col">ឈ្មោះទំនិញ</td>
-                                        <td class="text-center" scope="col">តម្លៃរាយ</td>
-                                        <td class="text-center" scope="col">ទម្ងន់(គ.ក)</td>
-                                        <td class="text-center" scope="col">សរុប(រៀល)</td>
-                                    </tr>
-                                </thead>
-                                <tbody class="table-group-divider">
-                                </tbody>
-                                <tfoot>
-                                    <tr>
-                                        <td colspan="3" class="text-end">សរុបទឹកប្រាក់ </td>
-                                        <th colspan="2" class="text-center table-success"><span id="sumPrice"></span>
-                                            រៀល</th>
-                                    </tr>
-                                </tfoot>
-
-                            </table>
-                            <button class="btn btn-success print-invoice" {{--
-                                onclick="window.print(),generateInvoicNO()">ទាញយកវិក្កយបត្រ</button> --}}
-                            onclick="saleProduct()">ទាញយកវិក្កយបត្រ</button>
+                            <div class="container-fluid">
+                                <table id="invoice" class="table table-bordered">
+                                    <thead class="table-success">
+                                        <tr>
+                                            <td class="text-center" scope="col">ល.រ</td>
+                                            <td class="text-center" scope="col">ឈ្មោះទំនិញ</td>
+                                            <td class="text-center" scope="col">តម្លៃរាយ</td>
+                                            <td class="text-center" scope="col">ទម្ងន់(គ.ក)</td>
+                                            <td class="text-center" scope="col">សរុប(រៀល)</td>
+                                        </tr>
+                                    </thead>
+                                    <tbody class="table-group-divider">
+                                    </tbody>
+                                    <tfoot>
+                                        <tr>
+                                            <td colspan="3" class="text-end">សរុបទឹកប្រាក់ </td>
+                                            <th colspan="2" class="text-center table-success"><span id="sumPrice"></span>
+                                                រៀល</th>
+                                        </tr>
+                                    </tfoot>
+    
+                                </table>
+                                <button class="btn btn-success print-invoice" 
+                                    onclick="printContent('full-invoice'),generateInvoicNO()">ទាញយកវិក្កយបត្រ</button>
+                               
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -127,7 +129,6 @@
     <script>
         let lastInvoice;
         //---------------------------- get all invoice --------------------------------
-        alert();
         fetch(`/index/all`)
             .then(res => res.json())
             .then(data => {

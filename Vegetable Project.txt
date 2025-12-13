@@ -31,4 +31,10 @@ on 5/12/25
 
   - issuse : the modal has still store old value when close the modal 
 
-  - continue : on all invoice add print or download function and delete invoice also 
+  - continue : on all invoice add print or download function and delete invoice also
+  
+on 13/12/2025
+
+  - setup route for open page : done
+
+  - add last change on page list product like u change something like : price 

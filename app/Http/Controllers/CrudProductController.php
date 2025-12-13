@@ -6,11 +6,16 @@ use Illuminate\Http\Request;
 use App\Models\crud_product;
 use App\Models\CustomInvoice;
 use App\Models\Invoice;
+use App\Models\SaleProduct;
 use ResourceBundle;
 use Symfony\Component\Console\Completion\Output\FishCompletionOutput;
 
 class CrudProductController extends Controller
 {
+    public function openCreateProduct()
+    {
+        return view('manageProduct.createProduct');
+    }
     public function createProduct(Request $request) 
     {
         $validated=$request->validate([
@@ -86,5 +91,14 @@ class CrudProductController extends Controller
             'message'=> 'updated successfully',
             'data'=>$data
         ]);
+    }
+    public function deleteInvoice($id)
+    {
+        $invoice=Invoice::find($id);
+        $sale=SaleProduct::find($id);
+        $invoice->delete();
+        $sale->delete();
+        return response()->json(['message'=>'invoice deleted successfully']);
+
     }
 }

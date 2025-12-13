@@ -54,25 +54,40 @@ body{
 .invoice-info strong {
   color: #000;
 }
+/*----------------------------- print content  --------------------------------*/
 @media print {
+
+  /* hide everything */
   body * {
     visibility: hidden;
   }
-  .print-invoice{
-    display: none;
-  }
-  #full-invoice,
-  #full-invoice * {
+
+  /* show only selected content */
+  .print-area.print-active,
+  .print-area.print-active * {
     visibility: visible;
   }
-  #full-invoice {
+
+  /* reset modal behavior */
+  .modal,
+  .modal-dialog,
+  .modal-content {
+    position: static !important;
+    transform: none !important;
+    overflow: visible !important;
+    height: auto;
+    max-height: none !important;
+  }
+  /* place content at top */
+  .print-area.print-active {
     position: absolute;
-    top: 0%;
-    right: -0;
-    left: -0;
+    top: 0;
+    left: 0;
     width: 100%;
+    page-break-after: avoid;
   }
 }
+
 
 /* -----------------------------admin ------------- */
 .admin-layout .menu{
@@ -131,4 +146,8 @@ body{
 .content{
   overflow-y: scroll;
   
+}
+/*----------------------- active color ----------------------- */
+.active{
+  background-color:#1F512C !important;
 }

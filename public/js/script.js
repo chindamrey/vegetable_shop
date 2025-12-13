@@ -152,6 +152,7 @@ setInterval(() => {
 }, 1000);
 //---------------------- get delete 
 function getDelete(id) {
+    alert(id);
     localStorage.setItem('id', id);
     fetch(`/product-data/${id}`)
         .then(response => response.json())
@@ -325,33 +326,75 @@ function invoiceHeader(total) {
             console.log(data);
         })
 }
-// show invoice 
+//---------------------------------------------- show invoice ------------------------------------------------
 function showInvoice(data) {
-    
+
     fetch(`/invoice/openInvoie/${data}`, {
 
     })
         .then(res => res.json())
         .then(data => {
-            console.log(data);
+            if (data.data.length == 0) {
+                document.getElementById('dataStatus').style.cssText = `text-align:center;color:grey; padding: 30px`;
+                document.getElementById('dataStatus').innerText="គ្មានទិន្នន័យ...";
+                document.getElementById('printOldInvoice').style.display="none";
 
-            let total;
-            data.data.forEach(element => {
-                // total= element.total;
-                document.getElementById('sumPrice').innerText =   Math.trunc(element.total);
-                document.getElementById('invoiceDate').innerText = element.date;
-                document.getElementById('invoiceNo').innerText = element.invoice_id;
-                document.getElementById('tblInvoice').innerHTML +=
-                `<tr>
-                <td>${element.invoice_id}</td>
-                <td>${element.p_name}</td>
-                <td>${element.p_price}</td>
-                <td>${element.weight}</td>
-                <td>${element.p_price * element.weight}</td>
-                </tr>`;
-            });
-           
+
+            }
+            else {
+                document.getElementById('dataStatus').style.cssText = '';
+                document.getElementById('dataStatus').innerText="";
+                // alert();
+                 document.getElementById('full-invoice').style.display="block";
+                console.log(data);
+                let total;
+                data.data.forEach(element => {
+                    // total= element.total;
+                    document.getElementById('sumPrice').innerText = Math.trunc(element.total);
+                    document.getElementById('invoiceDate').innerText = element.date;
+                    document.getElementById('invoiceNo').innerText = element.invoice_id;
+                    document.getElementById('tblInvoice').innerHTML +=
+                        `<tr>
+                    <td>${element.invoice_id}</td>
+                    <td>${element.p_name}</td>
+                    <td>${element.p_price}</td>
+                    <td>${element.weight}</td>
+                    <td>${element.p_price * element.weight}</td>
+                    </tr>`;
+                });
+
+            }
+
         })
 }
-//=====================end=========================
+//--------------------------------------------------- clear invoice when close --------------------------------------------
+function closeInvoice() {
+    document.getElementById('tblInvoice').innerText = '';
+}
 
+//------------------------------------------------------ print content Invoice ------------------------------------------------
+
+function printContent(id) {
+  document
+    .querySelectorAll('.print-area')
+    .forEach(el => el.classList.remove('print-active'));
+
+  document.getElementById(id).classList.add('print-active');
+
+  window.print();
+
+  document.getElementById(id).classList.remove('print-active');
+}
+//--------------------------------------------------------delete invoice------------------------------------------------------
+function deleteInvoice(id){
+    fetch(`/invoice/delete/${id}`,{
+        method: "DELETE",
+        headers: {
+            "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
+        }
+    })
+    .then(res=>res.json())
+    .then(data=>{
+        console.log(data.message);
+    })
+}

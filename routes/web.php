@@ -5,15 +5,16 @@ use App\Http\Controllers\CSaleProduct;
 use App\Models\crud_product;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('manageProduct.createProduct');
-});
 Route::get('/index',[CrudProductController::class,'getAllProduct']);
 Route::get('/product-data/{id}',[CrudProductController::class,'getProduct']);
 Route::get('/manageProduct/allProduct',[CrudProductController::class,'getAllProduct1']);
 Route::put('/manageProduct/update/{id}',[CrudProductController::class,'update']);
 Route::delete('/manageProduct/delete/{id}',[CrudProductController::class,'delete']);
-Route::post('/manageProduct/create',[CrudProductController::class,'createProduct']);
+Route::post( '/manageProduct/create',[CrudProductController::class,'createProduct']);
+//---------------------------------- order page ---------------------------------
+Route::get('/',[CrudProductController::class,'getAllProduct']);
+//---------------------------------- open create product ------------------------
+Route::get('/manageProduct/createProduct',[CrudProductController::class,'openCreateProduct']);
 //--------------------------------- invoice page --------------------------------
 Route::get('invoice/customInvoice',[CrudProductController::class,'invoicePage']); 
 //--------------------------------- get invoice info ----------------------------
@@ -28,3 +29,5 @@ Route::post('/invoice/headerCreate',[CSaleProduct::class,'invoiceHeader']);
 Route::get('/invoice/allInvoice',[CSaleProduct::class,'getAllInvoice']);
 //--------------------------------- open invoice ------------------------------
 Route::get('/invoice/openInvoie/{id}',[CSaleProduct::class,'openInvoice']) ;
+//----------------------------------delete invoice ----------------------------
+Route::delete('/invoice/delete/{id}',[CrudProductController::class,'deleteInvoice']);
