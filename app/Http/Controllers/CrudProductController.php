@@ -101,4 +101,15 @@ class CrudProductController extends Controller
         return response()->json(['message'=>'invoice deleted successfully']);
 
     }
+    public function searchProduct(Request $request)
+    {
+        $q=$request->q;
+        $product=crud_product::when($q,function($query) use ($q){
+            $query->where('p_name','LIKE',"%{$q}%")
+            ->orWhere('p_price','LIKE',"%{$q}");
+        })->get();
+        return response()->json([
+            'data'=>$product
+        ]);
+    }
 }

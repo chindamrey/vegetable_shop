@@ -1,23 +1,20 @@
 @font-face {
-    font-family: 'battambong';
-    src: url('/fonts/Battambang-Regular.ttf') format('truetype');
-    
+    font-family: "battambong";
+    src: url("/fonts/Battambang-Regular.ttf") format("truetype");
 }
-body{
-    font-family: 'battambong',sans-serif;
-    
+body {
+    font-family: "battambong", sans-serif;
 }
-.product-list{
+.product-list {
     height: 100vh;
-    overflow-y:scroll;
+    overflow-y: scroll;
     overflow-x: hidden;
-    
 }
-.product-list .product-card{
+.product-list .product-card {
     height: 150px;
     /* background-color: red; */
 }
-.product-card .product-title{
+.product-card .product-title {
     display: -webkit-box;
     -webkit-line-clamp: 1;
     -webkit-box-orient: vertical;
@@ -25,40 +22,39 @@ body{
 }
 /*---------- invoice ------------------ */
 .invoice .invoice-header {
-  /* display: none; */
-   text-align: center;
-  margin-inline: 12px;
- margin-bottom:5px;
-  padding-bottom: 0px;
-  
+    /* display: none; */
+    text-align: center;
+    margin-inline: 12px;
+    margin-bottom: 5px;
+    padding-bottom: 0px;
 }
 .shop-name {
-  color: #0d6efd;
-  font-weight: bold;
-  font-size: 1.7rem;
+    color: #0d6efd;
+    font-weight: bold;
+    font-size: 1.7rem;
 }
 .shop-code {
-  color: #dc3545;
-  font-weight: bold;
-  font-size: 2rem;
+    color: #dc3545;
+    font-weight: bold;
+    font-size: 2rem;
 }
 .shop-info {
-  font-size: 0.95rem;
-  color: #333;
+    font-size: 0.95rem;
+    color: #333;
 }
 .invoice-info {
-  font-size: 14px;
-  margin-top: 16px;
-  margin-bottom: 10px;
+    font-size: 14px;
+    margin-top: 16px;
+    margin-bottom: 10px;
 }
 .invoice-info strong {
-  color: #000;
+    color: #000;
 }
 /*----------------------------- print content  --------------------------------*/
 @media print {
 
-  /* hide everything */
-  body * {
+ 
+  body *,#hide-btn {
     visibility: hidden;
   }
 
@@ -68,7 +64,6 @@ body{
     visibility: visible;
   }
 
-  /* reset modal behavior */
   .modal,
   .modal-dialog,
   .modal-content {
@@ -79,75 +74,93 @@ body{
     max-height: none !important;
   }
   /* place content at top */
-  .print-area.print-active {
+   .print-area.print-active {
     position: absolute;
     top: 0;
     left: 0;
     width: 100%;
     page-break-after: avoid;
-  }
-}
+  } 
 
+
+
+    /* .modal,
+    .modal-dialog,
+    .modal-content {
+        position: static !important;
+        transform: none !important;
+        overflow: visible !important;
+        height: auto;
+        max-height: none !important;
+    }
+
+    #hide-btn {
+        display: none;
+    } */
+}
 
 /* -----------------------------admin ------------- */
-.admin-layout .menu{
-  margin:6px -6px;
-  border-radius: 8px;
-  height: 100vh;
-  background-color:#04150B;
+.admin-layout .menu {
+    margin: 6px -6px;
+    border-radius: 8px;
+    height: 100vh;
+    background-color: #04150b;
 }
-.admin-layout .content{
-  margin:6px -6px;
-  border-radius: 8px;
-  height: 100vh;
-  background-color: #F3F3F3;
-
+.admin-layout .content {
+    margin: 6px -6px;
+    border-radius: 8px;
+    height: 100vh;
+    background-color: #f3f3f3;
 }
-.admin-layout .menu .company-logo{
-  height: 80px;
-  text-align: end;
-  align-content: center;
-  padding:12px;
-  color: #F0FDF4;
-  background-color: #041D0F;
-  border-radius: 8px;
+.admin-layout .menu .company-logo {
+    height: 80px;
+    text-align: end;
+    align-content: center;
+    padding: 12px;
+    color: #f0fdf4;
+    background-color: #041d0f;
+    border-radius: 8px;
 }
-.admin-layout .menu .menu-button .btn-menu{
-  color:#F0FDF4;
-  font-size: 18px;
-  height: 55px;
-  align-content: center;
-  background-color: #04150B;
-  border:none;
+.admin-layout .menu .menu-button .btn-menu {
+    color: #f0fdf4;
+    font-size: 18px;
+    height: 55px;
+    align-content: center;
+    background-color: #04150b;
+    border: none;
 }
-.admin-layout .menu .menu-button .btn-menu:hover{
-  background-color: #1F512C;
+.admin-layout .menu .menu-button .btn-menu:hover {
+    background-color: #1f512c;
 }
 /* ---------- create product page  ------------------*/
-.create-product-page{
-  font-size: 18px;
-  background-color: #E2F2E6;
+.create-product-page {
+    font-size: 18px;
+    background-color: #e2f2e6;
 }
 /*---------------------- show all product page --------------- */
-.show-product-page{
-  /* background-color: #E2F2E6; */
-  height: 85vh;
+.show-product-page {
+    /* background-color: #E2F2E6; */
+    height: 85vh;
 }
-.show-product-page .product-display{
-  /* height: 83vh; */
-  overflow-y: scroll;
-
+.show-product-page .product-display {
+    /* height: 83vh; */
+    overflow-y: scroll;
 }
 
-.product-display table tbody tr td{
- align-content: center;
-
+.product-display table tbody tr td {
+    align-content: center;
 }
-.content{
-  overflow-y: scroll;
-  
+.content {
+    overflow-y: scroll;
 }
 /*----------------------- active color ----------------------- */
-.active{
-  background-color:#1F512C !important;
+.active {
+    background-color: #1f512c !important;
+}
+/* --------------------------button manage absolte ---------------- */
+.flat-btn{
+    position:fixed;
+    
+    right: 2%;
+    bottom: 2%;
 }

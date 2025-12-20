@@ -30,10 +30,8 @@
                             </div>
                             <div class="menu-button">
                                 <div class="list-group ">
-                                    <button class="btn-menu list-group-item list-group-item-action ps-3"><a href="#"
-                                            class="text-white"></a>ចំណូល</button>
-                                    <a href="#"
-                                        class="btn-menu list-group-item list-group-item-action ps-3">គ្រប់គ្រងទំនិញ</a>
+                                    <button class="btn-menu list-group-item list-group-item-action ps-3" id="time"></button>
+                                    <p class="p-3 text-white list-group-item bg-transparent border-0 mb-0">គ្រប់គ្រងទំនិញ</p>
 
 
                                     <a href="/manageProduct/createProduct"
@@ -41,8 +39,7 @@
 
                                     <a href="/manageProduct/allProduct"
                                         class="{{ request()->is('manageProduct/allProduct*') ? 'active' : '' }} btn-menu list-group-item list-group-item-action ps-5">ទាំងអស់</a>
-                                    <a href="#"
-                                        class="btn-menu list-group-item list-group-item-action ps-3">វិក្កយបត្រ</a>
+                                    <p class="p-3 text-white list-group-item bg-transparent border-0 mb-0">វិក្កយបត្រ</p>
                                     <a href="/invoice/allInvoice"
                                         class="{{ request()->is('invoice/allInvoice*') ? 'active' : '' }} btn-menu list-group-item list-group-item-action ps-5">វិក្កយបត្រទាំងអស់</a>
                                     <a href="/invoice/customInvoice"
@@ -66,6 +63,9 @@
     </main>
 </body>
 <script src="{{ asset('js/bootstrap.bundle.min.js') }}"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+
 <script src="{{ asset('js/script.js') }}"></script>
 
 </html>

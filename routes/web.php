@@ -31,3 +31,5 @@ Route::get('/invoice/allInvoice',[CSaleProduct::class,'getAllInvoice']);
 Route::get('/invoice/openInvoie/{id}',[CSaleProduct::class,'openInvoice']) ;
 //----------------------------------delete invoice ----------------------------
 Route::delete('/invoice/delete/{id}',[CrudProductController::class,'deleteInvoice']);
+//----------------------------------Search Product-----------------------------
+Route::get('/manageProduct/search',[CrudProductController::class,'searchProduct']);

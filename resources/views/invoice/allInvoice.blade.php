@@ -93,7 +93,7 @@
                         </table>
                         <div class="d-flex w-100  justify-content-end download-invoice">
 
-                            <button class="btn btn-outline-success print-invoice"
+                            <button class="btn btn-outline-success print-invoice" id="hide-btn"
                                 onclick="printContent('printOldInvoice')">ទាញយកវិក្កយបត្រ</button>
                         </div>
                     </div>

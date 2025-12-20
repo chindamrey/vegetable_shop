@@ -38,3 +38,5 @@ on 13/12/2025
   - setup route for open page : done
 
   - add last change on page list product like u change something like : price 
+
+  - show new product on top

@@ -1,6 +1,4 @@
-// const { jsx } = require("react/jsx-runtime");
 
-//============== script for order and invoice ===============
 let pName;
 let productId;
 let net;
@@ -17,7 +15,7 @@ let pay;
 let itemSale = [];
 let invoice = [];
 
-//---------------------------- load invoice info ------------------------------
+//------------------------------------- load invoice info -------------------------------
 fetch(`/invoiceInfo`)
     .then(res => res.json())
     .then(data => {
@@ -27,7 +25,7 @@ fetch(`/invoiceInfo`)
             document.getElementById('invoicePhoneNumber').innerText = element.phone_number;
         });
     })
-//---------------------------- get all invoice --------------------------------
+//-------------------------------------- get all invoice --------------------------------
 
 function orderProduct(id) {
     fetch(`/product-data/${id}`)
@@ -41,7 +39,7 @@ function orderProduct(id) {
         });
 
 }
-//------------------------------ create product 
+//---------------------------------------- create product --------------------------------
 function createProduct() {
     // alert();
     event.preventDefault();
@@ -64,7 +62,7 @@ function createProduct() {
             console.log(data.message);
         })
 }
-//------------------------------ get update product id 
+//------------------------------ get update product id ---------------------------------
 function getUpdateProduct(id) {
     localStorage.setItem('id', id);
     fetch(`/product-data/${id}`)
@@ -76,7 +74,7 @@ function getUpdateProduct(id) {
         });
 
 }
-//------------------------------- update product 
+//------------------------------- update product ----------------------------------------
 function updateProduct() {
     let id = localStorage.getItem('id');
     let name = document.getElementById('itemName').value;
@@ -100,10 +98,8 @@ function updateProduct() {
             // location.reload();
         })
 }
-//------------------------------- sale product --------------------------
+//------------------------------------------ sale product -----------------------------------
 function saleProduct() {
-
-
     fetch('/index/sale', {
         method: "post",
         headers: {
@@ -119,23 +115,6 @@ function saleProduct() {
             invoiceHeader(pay);
         })
 }
-
-
-// window.onload = function () {
-//     generateInvoicNO();
-// }
-
-
-function updateClock() {
-    let now = new Date();
-    let hours = String(now.getHours()).padStart(2, '0');
-    let minutes = String(now.getMinutes()).padStart(2, '0');
-    let ampm = (hours >= 12) ? 'រសៀល' : 'ព្រឹក';
-    hours = hours % 12;
-    document.getElementById('date').innerText = `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()}`;
-    document.getElementById('clock').innerText = `${hours}:${minutes} ${ampm}`;
-
-}
 //----------------------------------------- data and time ------------------------------------
 function dateTime() {
     let now = new Date();
@@ -144,15 +123,14 @@ function dateTime() {
     let ampm = (hours >= 12) ? 'រសៀល' : 'ព្រឹក';
     hours = hours % 12;
     return `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} ${hours}:${minutes} ${ampm}`;
-
 }
-console.log(`here's current date now ${dateTime()}`);
+//-----------------------------------------update time come to current time -------------------
+document.getElementById('time').innerHTML=(`${dateTime()}`);
 setInterval(() => {
-    updateClock();
-}, 1000);
-//---------------------- get delete 
+    document.getElementById('time').innerHTML=(`${dateTime()}`);
+}, 60000);
+//----------------------------------------------- get delete -----------------------------------
 function getDelete(id) {
-    alert(id);
     localStorage.setItem('id', id);
     fetch(`/product-data/${id}`)
         .then(response => response.json())
@@ -161,7 +139,7 @@ function getDelete(id) {
             console.log(data.p_name);
         });
 }
-//-------------------- delete product 
+//--------------------------------------------- delete product ----------------------------------
 function deleteProduct() {
     let id = localStorage.getItem('id');
     fetch(`/manageProduct/delete/${id}`, {
@@ -175,7 +153,7 @@ function deleteProduct() {
             location.reload();
         })
 }
-//-------------------------- custom invoice ---------------------------
+//---------------------------------------------- custom invoice ----------------------------------
 function customInvoice() {
     let data = {
         name: document.getElementById('name').value,
@@ -195,30 +173,7 @@ function customInvoice() {
             console.log(data);
         })
 }
-function exportInvoice() {
-    const element = document.getElementById("invoice");
-
-    const options = {
-        margin: 2,
-        filename: 'invoice.pdf',
-        image: {
-            type: 'jpeg',
-            quality: 0.98
-        },
-        html2canvas: {
-            scale: 2
-        },
-        jsPDF: {
-            unit: 'mm',
-            format: 'a5',
-            orientation: 'portrait'
-        }
-    };
-
-    html2pdf().from(element).set(options).save();
-}
-
-
+//----------------------- find the total money for each product on row ----------------------------
 function payment() {
     let payment = 0;
     let itemCount;
@@ -233,7 +188,7 @@ function payment() {
     document.getElementById('sumPrice').innerText = Math.trunc(payment.toFixed(2));
     pay = document.getElementById('sumPrice').innerText = Math.trunc(payment.toFixed(2));
 }
-
+//----------------------------------------- check product before add if it exits just increase amount no need to add new but same product -----------------------------
 function checkItem(itemInList, newItem) {
     if (itemInList == newItem) {
         return true;
@@ -242,7 +197,7 @@ function checkItem(itemInList, newItem) {
     }
 
 }
-
+//--------------------------------------- add product to table after comfirm -----------------------------
 function addTable() {
     if (net != 0) {
 
@@ -265,7 +220,6 @@ function addTable() {
             }
         }
         if (isHave == true) {
-
         } else {
             let newRow = table.insertRow();
             newRow.insertCell(0).innerText = number;
@@ -274,7 +228,6 @@ function addTable() {
             newRow.insertCell(3).innerText = net;
             newRow.insertCell(4).innerText = total.toFixed(2);
         }
-        // console.log(numRows);
     }
     else {
         let wStatus = document.getElementById('weightStatus');
@@ -283,30 +236,27 @@ function addTable() {
         wStatus.style.fontWeight = "500";
         document.getElementById('net').style.borderColor = "red";
         wStatus.innerText = "សូមធ្វើការបញ្ចូលគីឡូ";
-
     }
-
 }
-//------------------------- array object data --------------------------
-
+//--------------------------------------- array object data -------------------------------------------
 function dataObj(productId, weight, pay) {
     let now = new Date();
     let date = `${now.getFullYear()}-${now.getMonth() + 1}-${now.getDate()}`
 }
-
+//------------------------------- make sure for add product to invoice --------------------------------
 function comfirm() {
+   
     net = Number(document.getElementById('net').value);
+    
     total = price * net;
     addTable();
     payment();
-    // dataObj(productId,net,pay);
-    itemSale.push({ 'invoice_id': localStorage.getItem('invoiceId'), 'product_id': productId, 'weight': net });
-    alert(localStorage.getItem('invoiceId'))
-    // console.log(itemSale)
-
-
+    let newItem={'id':productId,'weight':document.getElementById('net').value};
+    const item=itemSale.find(i=>i.product_id===newItem.id);
+    item ? item.weight=Number(newItem.weight) + Number(item.weight) : itemSale.push({ 'invoice_id': localStorage.getItem('invoiceId'), 'product_id': productId, 'weight': document.getElementById('net').value });
+    console.log(itemSale);
 }
-//-------------------------------- insert invoice header ------------------------------
+//-------------------------------------- insert invoice header ----------------------------------------
 function invoiceHeader(total) {
     let data = {
         'invoice_id': localStorage.getItem('invoiceNumber'),
@@ -326,11 +276,9 @@ function invoiceHeader(total) {
             console.log(data);
         })
 }
-//---------------------------------------------- show invoice ------------------------------------------------
+//---------------------------------------- show invoice ----------------------------------------------
 function showInvoice(data) {
-
     fetch(`/invoice/openInvoie/${data}`, {
-
     })
         .then(res => res.json())
         .then(data => {
@@ -338,54 +286,43 @@ function showInvoice(data) {
                 document.getElementById('dataStatus').style.cssText = `text-align:center;color:grey; padding: 30px`;
                 document.getElementById('dataStatus').innerText="គ្មានទិន្នន័យ...";
                 document.getElementById('printOldInvoice').style.display="none";
-
-
             }
             else {
                 document.getElementById('dataStatus').style.cssText = '';
                 document.getElementById('dataStatus').innerText="";
-                // alert();
-                 document.getElementById('full-invoice').style.display="block";
+                 document.getElementById('printOldInvoice').style.display="block";
                 console.log(data);
                 let total;
                 data.data.forEach(element => {
-                    // total= element.total;
                     document.getElementById('sumPrice').innerText = Math.trunc(element.total);
                     document.getElementById('invoiceDate').innerText = element.date;
                     document.getElementById('invoiceNo').innerText = element.invoice_id;
                     document.getElementById('tblInvoice').innerHTML +=
-                        `<tr>
-                    <td>${element.invoice_id}</td>
-                    <td>${element.p_name}</td>
-                    <td>${element.p_price}</td>
-                    <td>${element.weight}</td>
-                    <td>${element.p_price * element.weight}</td>
+                    `<tr>
+                        <td>${element.invoice_id}</td>
+                        <td>${element.p_name}</td>
+                        <td>${element.p_price}</td>
+                        <td>${element.weight}<span class="text-end"> kg</span></td>
+                        <td class="text-end">${element.p_price * element.weight}</td>
                     </tr>`;
                 });
-
             }
-
         })
 }
-//--------------------------------------------------- clear invoice when close --------------------------------------------
+//--------------------------------------------------- clear invoice when close modal --------------------------------------------
 function closeInvoice() {
     document.getElementById('tblInvoice').innerText = '';
 }
-
-//------------------------------------------------------ print content Invoice ------------------------------------------------
-
+//--------------------------------------------------- print content Invoice  on modal -------------------------------------------
 function printContent(id) {
   document
     .querySelectorAll('.print-area')
     .forEach(el => el.classList.remove('print-active'));
-
   document.getElementById(id).classList.add('print-active');
-
   window.print();
-
   document.getElementById(id).classList.remove('print-active');
 }
-//--------------------------------------------------------delete invoice------------------------------------------------------
+//----------------------------------------------------------delete invoice-------------------------------------------------------
 function deleteInvoice(id){
     fetch(`/invoice/delete/${id}`,{
         method: "DELETE",
@@ -398,3 +335,40 @@ function deleteInvoice(id){
         console.log(data.message);
     })
 }
+//---------------------------------------------------------Search Product---------------------------------------------------------
+let productList=document.getElementById('product-list');
+let proObj=[];
+document.getElementById('searchProduct').onkeyup=()=>{
+    // productList.innerText='';
+    // result.innerText=document.getElementById('searchProduct').value;
+    let search=document.getElementById('searchProduct');
+    axios.get('/manageProduct/search',{
+        params:{
+            q:search.value
+        }
+    })
+    .then(res=>{
+        console.log(res.data); 
+        productList.innerHTML='';
+        console.log(res.data.data.length);
+        if(res.data.data.length==0){
+            productList.innerHTML=`<h1 class="text-center pt-5 mt-5" style="color:gray">គ្មានទិន្នន័យ</h1>`;
+        }
+        res.data.data.forEach(element => {
+            
+            productList.innerHTML+=
+            `<tr>
+                <td>${element.p_name}</td>
+                <td class="text-center">${element.p_price} <span> រៀល</span></td>
+                <td class="text-end">
+                    <button class="btn btn-outline-warning" onclick="getUpdateProduct(${element.id})" data-bs-toggle="modal"
+                            data-bs-target="#update-item"><i class="fa-regular fa-pen-to-square"></i> កែ
+                    </button>
+                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-item" onclick="getDelete(${element.id})">
+                        <i class="fa-regular fa-trash-can"></i> លុប
+                    </button>
+                </td>
+            </tr>`;
+    });
+})
+};

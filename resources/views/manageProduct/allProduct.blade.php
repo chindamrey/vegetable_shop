@@ -1,7 +1,8 @@
 @extends('adminLayout')
 @section('content')
     <div class="d-flex justify-content-center mb-4">
-        <input type="search" class="form-control w-50 rounded" placeholder="ស្វែងរកតាមរយ:ឈ្មោះរបស់បន្លែ...">
+        <input type="search" class="form-control w-50 rounded" placeholder="ស្វែងរកតាមរយ:ឈ្មោះរបស់បន្លែ..." id="searchProduct">
+        <p id="searchResult"></p>
     </div>
     <section class="show-product-page">
 
@@ -10,14 +11,15 @@
                 <table class="table table-striped my-2">
                     <thead class="table-success">
                         <th>ឈ្មោះបន្លែ</th>
-                        <th>តម្លៃ</th>
-                        <th class="text-end pe-4">សកម្មភាព</th>
+                        <th class="text-center">តម្លៃ</th>
+                        <th class="text-end pe-5">សកម្មភាព</th>
                     </thead>
-                    <tbody>
+                    
+                    <tbody id="product-list">
                         @foreach ($data as $d)
                             <tr>
                                 <td>{{ $d->p_name}}</td>
-                                <td><span class="text-success fw-bold">{{ $d->p_price }} </span> រៀល</td>
+                                <td class="text-center"><span class="">{{ $d->p_price }} </span> រៀល</td>
                                 <td class="text-end"><button class="btn btn-outline-warning" onclick="getUpdateProduct({{ $d->id }})" data-bs-toggle="modal"
                                         data-bs-target="#update-item"><i class="fa-regular fa-pen-to-square"></i> កែ</button>
                                     <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-item" onclick="getDelete({{ $d->id }})"><i class="fa-regular fa-trash-can"></i> លុប</button>

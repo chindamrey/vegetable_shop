@@ -18,6 +18,9 @@
 <body>
     <main>
         <div class="container-fluid">
+            <div class="flat-btn">
+                <a href="/manageProduct/createProduct" class="btn btn-primary">គ្រប់គ្រង</a>
+            </div>
             <div class="row">
                 <div class="col-12 col-xl-6">
                     <div class="product-list pt-3">
@@ -41,7 +44,7 @@
                     </div>
                 </div>
                 <div class="col-12 col-xl-6 pt-3">
-                    <div class="print-area ">
+                    <div class="print-area">
                         <div class="invoice print-area" id="full-invoice">
                             <!-- Header -->
                             <div class="invoice-header">
@@ -60,10 +63,9 @@
                                     </div>
                                     <div class="col-6 text-end">
                                         <p>កាលបរិច្ឆេទ៖
-                                            <strong id="date">
+                                            <strong id="time">
     
                                             </strong>
-                                            <b id="clock"></b>
                                         </p>
                                     </div>
                                 </div>
@@ -84,14 +86,14 @@
                                     <tfoot>
                                         <tr>
                                             <td colspan="3" class="text-end">សរុបទឹកប្រាក់ </td>
-                                            <th colspan="2" class="text-center table-success"><span id="sumPrice"></span>
+                                            <th colspan="2" class="text-center table-success"><span id="sumPrice" class="fs-5 fw-0"></span>
                                                 រៀល</th>
                                         </tr>
                                     </tfoot>
     
                                 </table>
-                                <button class="btn btn-success print-invoice" 
-                                    onclick="printContent('full-invoice'),generateInvoicNO()">ទាញយកវិក្កយបត្រ</button>
+                                <button class="btn btn-success print-invoice" id="hide-btn"
+                                    onclick="printContent('full-invoice'),saleProduct()">ទាញយកវិក្កយបត្រ</button>
                                
                             </div>
                         </div>
