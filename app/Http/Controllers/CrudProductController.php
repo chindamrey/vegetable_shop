@@ -112,4 +112,14 @@ class CrudProductController extends Controller
             'data'=>$product
         ]);
     }
+    public function searchInvoice(Request $request) 
+    {
+        $q=$request->q;
+        $invoice=Invoice::when($q,function($query) use ($q){
+            $query->where('invoice_id','LIKE',"%{$q}%");
+        })->get();
+        return response()->json([
+            'data'=>$invoice
+        ]);
+    }
 }

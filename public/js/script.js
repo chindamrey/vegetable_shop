@@ -1,3 +1,4 @@
+// const { default: axios } = require("axios");
 
 let pName;
 let productId;
@@ -125,9 +126,9 @@ function dateTime() {
     return `${now.getDate()}/${now.getMonth() + 1}/${now.getFullYear()} ${hours}:${minutes} ${ampm}`;
 }
 //-----------------------------------------update time come to current time -------------------
-document.getElementById('time').innerHTML=(`${dateTime()}`);
+document.getElementById('time').innerHTML = (`${dateTime()}`);
 setInterval(() => {
-    document.getElementById('time').innerHTML=(`${dateTime()}`);
+    document.getElementById('time').innerHTML = (`${dateTime()}`);
 }, 60000);
 //----------------------------------------------- get delete -----------------------------------
 function getDelete(id) {
@@ -245,15 +246,15 @@ function dataObj(productId, weight, pay) {
 }
 //------------------------------- make sure for add product to invoice --------------------------------
 function comfirm() {
-   
+
     net = Number(document.getElementById('net').value);
-    
+
     total = price * net;
     addTable();
     payment();
-    let newItem={'id':productId,'weight':document.getElementById('net').value};
-    const item=itemSale.find(i=>i.product_id===newItem.id);
-    item ? item.weight=Number(newItem.weight) + Number(item.weight) : itemSale.push({ 'invoice_id': localStorage.getItem('invoiceId'), 'product_id': productId, 'weight': document.getElementById('net').value });
+    let newItem = { 'id': productId, 'weight': document.getElementById('net').value };
+    const item = itemSale.find(i => i.product_id === newItem.id);
+    item ? item.weight = Number(newItem.weight) + Number(item.weight) : itemSale.push({ 'invoice_id': localStorage.getItem('invoiceId'), 'product_id': productId, 'weight': document.getElementById('net').value });
     console.log(itemSale);
 }
 //-------------------------------------- insert invoice header ----------------------------------------
@@ -284,13 +285,13 @@ function showInvoice(data) {
         .then(data => {
             if (data.data.length == 0) {
                 document.getElementById('dataStatus').style.cssText = `text-align:center;color:grey; padding: 30px`;
-                document.getElementById('dataStatus').innerText="គ្មានទិន្នន័យ...";
-                document.getElementById('printOldInvoice').style.display="none";
+                document.getElementById('dataStatus').innerText = "គ្មានទិន្នន័យ...";
+                document.getElementById('printOldInvoice').style.display = "none";
             }
             else {
                 document.getElementById('dataStatus').style.cssText = '';
-                document.getElementById('dataStatus').innerText="";
-                 document.getElementById('printOldInvoice').style.display="block";
+                document.getElementById('dataStatus').innerText = "";
+                document.getElementById('printOldInvoice').style.display = "block";
                 console.log(data);
                 let total;
                 data.data.forEach(element => {
@@ -298,7 +299,7 @@ function showInvoice(data) {
                     document.getElementById('invoiceDate').innerText = element.date;
                     document.getElementById('invoiceNo').innerText = element.invoice_id;
                     document.getElementById('tblInvoice').innerHTML +=
-                    `<tr>
+                        `<tr>
                         <td>${element.invoice_id}</td>
                         <td>${element.p_name}</td>
                         <td>${element.p_price}</td>
@@ -315,49 +316,47 @@ function closeInvoice() {
 }
 //--------------------------------------------------- print content Invoice  on modal -------------------------------------------
 function printContent(id) {
-  document
-    .querySelectorAll('.print-area')
-    .forEach(el => el.classList.remove('print-active'));
-  document.getElementById(id).classList.add('print-active');
-  window.print();
-  document.getElementById(id).classList.remove('print-active');
+    document
+        .querySelectorAll('.print-area')
+        .forEach(el => el.classList.remove('print-active'));
+    document.getElementById(id).classList.add('print-active');
+    window.print();
+    document.getElementById(id).classList.remove('print-active');
 }
 //----------------------------------------------------------delete invoice-------------------------------------------------------
-function deleteInvoice(id){
-    fetch(`/invoice/delete/${id}`,{
+function deleteInvoice(id) {
+    fetch(`/invoice/delete/${id}`, {
         method: "DELETE",
         headers: {
             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
         }
     })
-    .then(res=>res.json())
-    .then(data=>{
-        console.log(data.message);
-    })
+        .then(res => res.json())
+        .then(data => {
+            console.log(data.message);
+        })
 }
 //---------------------------------------------------------Search Product---------------------------------------------------------
-let productList=document.getElementById('product-list');
-let proObj=[];
-document.getElementById('searchProduct').onkeyup=()=>{
-    // productList.innerText='';
-    // result.innerText=document.getElementById('searchProduct').value;
-    let search=document.getElementById('searchProduct');
-    axios.get('/manageProduct/search',{
-        params:{
-            q:search.value
+let productList = document.getElementById('product-list');
+
+function searchProduct() {
+    let search = document.getElementById('searchProduct');
+    axios.get('/manageProduct/search', {
+        params: {
+            q: search.value
         }
     })
-    .then(res=>{
-        console.log(res.data); 
-        productList.innerHTML='';
-        console.log(res.data.data.length);
-        if(res.data.data.length==0){
-            productList.innerHTML=`<h1 class="text-center pt-5 mt-5" style="color:gray">គ្មានទិន្នន័យ</h1>`;
-        }
-        res.data.data.forEach(element => {
-            
-            productList.innerHTML+=
-            `<tr>
+        .then(res => {
+            console.log(res.data);
+            productList.innerHTML = '';
+            console.log(res.data.data.length);
+            if (res.data.data.length == 0) {
+                document.getElementById('searchProductStatus').innerHTML = `<h1 class="text-center pt-5 mt-5" style="color:gray">គ្មានទិន្នន័យ</h1>`;
+            }
+            res.data.data.forEach(element => {
+
+                productList.innerHTML +=
+                    `<tr>
                 <td>${element.p_name}</td>
                 <td class="text-center">${element.p_price} <span> រៀល</span></td>
                 <td class="text-end">
@@ -369,6 +368,39 @@ document.getElementById('searchProduct').onkeyup=()=>{
                     </button>
                 </td>
             </tr>`;
-    });
-})
+            });
+        }
+        )
 };
+let invoiceList = document.getElementById('invoice-list');
+
+function searchInvoice() {
+    let searchValue = document.getElementById('searchInvoice').value;
+    axios.get('/invoice/all-invoice/search', {
+        params: { q: searchValue }
+    })
+        .then(res => {
+            invoiceList.innerHTML='';
+             if (res.data.data.length == 0) {
+                document.getElementById('searchInvoiceStatus').innerHTML = `<h1 class="text-center pt-5 mt-5" style="color:gray">គ្មានទិន្នន័យ</h1>`;
+            }
+            console.log('clear');
+            console.log(res.data)
+            res.data.data.forEach(element=>{
+                invoiceList.innerHTML+=
+                `<tr>
+                    <td>${element.invoice_id}</td>
+                    <td class="text-center"><span id="invoicePrice">${ element.total}
+                                    </span> រៀល</td>
+                    <td class="text-center">${ element.date }</td>
+                    <td class="text-end"><button onclick="showInvoice(${element.id})" data-bs-target="#viewInvoice"
+                                        data-bs-toggle="modal" class="btn btn-outline-primary"><i
+                                            class="fa-regular fa-pen-to-square"></i> មើល</button>
+                                   
+                                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-item"
+                                        onclick="deleteInvoice(${element.id})"><i class="fa-regular fa-trash-can"></i> លុប</button>
+                    </td>
+                </tr>`
+            })
+        })
+}

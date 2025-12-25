@@ -1,7 +1,7 @@
 @extends('adminLayout')
 @section('content')
     <div class="d-flex justify-content-center mb-4">
-        <input type="search" class="form-control w-50 rounded" placeholder="ស្វែងរកតាមរយ:ឈ្មោះរបស់បន្លែ...">
+        <input type="search" class="form-control w-50 rounded" placeholder="ស្វែងរកតាមរយ:លេខវិក្កយបត្រ..." id="searchInvoice" onkeyup="searchInvoice()">
     </div>
     <section class="show-invoice-page">
 
@@ -12,9 +12,9 @@
                         <th>លេខវិក័យប័ត្រ</th>
                         <th class="text-center">សរុប</th>
                         <th class="text-center">កាលបរិច្ឆេទ</th>
-                        <th class="text-center pe-5">សកម្មភាព</th>
+                        <th class="text-end pe-5">សកម្មភាព</th>
                     </thead>
-                    <tbody>
+                    <tbody id="invoice-list">
                         @foreach ($data as $d)
                             <tr>
                                 <td>{{ $d->invoice_id}}</td>
@@ -34,6 +34,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                <h1 id="searchInvoiceStatus"></h1>
             </div>
         </div>
     </section>
@@ -50,51 +51,54 @@
             </div>
             <h4 id="dataStatus"></h4>
             <div class="print-area invoice" id="printOldInvoice">
-                <!-- Header -->
-                <div class="invoice-header">
-                    <div class="row invoice-info">
-                        <div class="col-6 text-start">
-                            <span>លេខវិក័យប័ត្រ៖ <strong id="invoiceNo"></strong></span><br>
-                        </div>
-                        <div class="col-6 text-end">
-                            <p>កាលបរិច្ឆេទ៖
-                                <strong id="invoiceDate">
+                <div class="print-active">
 
-                                </strong>
-                            </p>
+                    <!-- Header -->
+                    <div class="invoice-header">
+                        <div class="row invoice-info">
+                            <div class="col-6 text-start">
+                                <span>លេខវិក័យប័ត្រ៖ <strong id="invoiceNo"></strong></span><br>
+                            </div>
+                            <div class="col-6 text-end">
+                                <p>កាលបរិច្ឆេទ៖
+                                    <strong id="invoiceDate">
+    
+                                    </strong>
+                                </p>
+                            </div>
                         </div>
                     </div>
-                </div>
-                <div class="container-fluid modal-content">
-                    <div id="viewInvoice">
-
-                        <table class="table table-bordered">
-                            <thead class="table-success">
-                                <tr>
-                                    <td class="text-center" scope="col">ល.រ</td>
-                                    <td class="text-center" scope="col">ឈ្មោះទំនិញ</td>
-                                    <td class="text-center" scope="col">តម្លៃរាយ</td>
-                                    <td class="text-center" scope="col">ទម្ងន់(គ.ក)</td>
-                                    <td class="text-center" scope="col">សរុប(រៀល)</td>
-                                </tr>
-                            </thead>
-                            <tbody class="table-group-divider" id="tblInvoice">
-
-                            </tbody>
-                            <tfoot>
-                                <tr>
-                                    <td colspan="3" class="text-end">សរុបទឹកប្រាក់ </td>
-                                    <th colspan="2" class="text-center table-success"><span id="sumPrice"
-                                            class="text-danger"></span>
-                                        រៀល</th>
-                                </tr>
-                            </tfoot>
-
-                        </table>
-                        <div class="d-flex w-100  justify-content-end download-invoice">
-
-                            <button class="btn btn-outline-success print-invoice" id="hide-btn"
-                                onclick="printContent('printOldInvoice')">ទាញយកវិក្កយបត្រ</button>
+                    <div class="container-fluid modal-content">
+                        <div id="viewInvoice">
+    
+                            <table class="table table-bordered">
+                                <thead class="table-success">
+                                    <tr>
+                                        <td class="text-center" scope="col">ល.រ</td>
+                                        <td class="text-center" scope="col">ឈ្មោះទំនិញ</td>
+                                        <td class="text-center" scope="col">តម្លៃរាយ</td>
+                                        <td class="text-center" scope="col">ទម្ងន់(គ.ក)</td>
+                                        <td class="text-center" scope="col">សរុប(រៀល)</td>
+                                    </tr>
+                                </thead>
+                                <tbody class="table-group-divider" id="tblInvoice">
+    
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td colspan="3" class="text-end">សរុបទឹកប្រាក់ </td>
+                                        <th colspan="2" class="text-center table-success"><span id="sumPrice"
+                                                class="text-danger"></span>
+                                            រៀល</th>
+                                    </tr>
+                                </tfoot>
+    
+                            </table>
+                            <div class="d-flex w-100  justify-content-end download-invoice">
+    
+                                <button class="btn btn-outline-success print-invoice" id="hide-btn"
+                                    onclick="printContent('printOldInvoice')">ទាញយកវិក្កយបត្រ</button>
+                            </div>
                         </div>
                     </div>
                 </div>

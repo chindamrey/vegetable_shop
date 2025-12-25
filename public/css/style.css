@@ -52,39 +52,21 @@ body {
 }
 /*----------------------------- print content  --------------------------------*/
 @media print {
+    body *,
+    #hide-btn {
+        visibility: hidden;
+    }
+    .product-list{
+        display: none;
+    }
 
- 
-  body *,#hide-btn {
-    visibility: hidden;
-  }
+    /* show only selected content */
+    .print-area.print-active,
+    .print-area.print-active * {
+        visibility: visible;
+    }
 
-  /* show only selected content */
-  .print-area.print-active,
-  .print-area.print-active * {
-    visibility: visible;
-  }
-
-  .modal,
-  .modal-dialog,
-  .modal-content {
-    position: static !important;
-    transform: none !important;
-    overflow: visible !important;
-    height: auto;
-    max-height: none !important;
-  }
-  /* place content at top */
-   .print-area.print-active {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    page-break-after: avoid;
-  } 
-
-
-
-    /* .modal,
+    .modal,
     .modal-dialog,
     .modal-content {
         position: static !important;
@@ -93,10 +75,14 @@ body {
         height: auto;
         max-height: none !important;
     }
-
-    #hide-btn {
-        display: none;
-    } */
+    /* place content at top */
+    .print-area.print-active {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        page-break-after: avoid;
+    }
 }
 
 /* -----------------------------admin ------------- */
@@ -158,9 +144,9 @@ body {
     background-color: #1f512c !important;
 }
 /* --------------------------button manage absolte ---------------- */
-.flat-btn{
-    position:fixed;
-    
+.flat-btn {
+    position: fixed;
+
     right: 2%;
     bottom: 2%;
 }

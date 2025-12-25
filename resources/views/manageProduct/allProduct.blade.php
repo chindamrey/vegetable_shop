@@ -1,7 +1,7 @@
 @extends('adminLayout')
 @section('content')
     <div class="d-flex justify-content-center mb-4">
-        <input type="search" class="form-control w-50 rounded" placeholder="ស្វែងរកតាមរយ:ឈ្មោះរបស់បន្លែ..." id="searchProduct">
+        <input type="search" class="form-control w-50 rounded" placeholder="ស្វែងរកតាមរយ:ឈ្មោះរបស់បន្លែ..." id="searchProduct" onkeyup="searchProduct()">
         <p id="searchResult"></p>
     </div>
     <section class="show-product-page">
@@ -20,7 +20,7 @@
                             <tr>
                                 <td>{{ $d->p_name}}</td>
                                 <td class="text-center"><span class="">{{ $d->p_price }} </span> រៀល</td>
-                                <td class="text-end"><button class="btn btn-outline-warning" onclick="getUpdateProduct({{ $d->id }})" data-bs-toggle="modal"
+                                <td class="text-end"><button class="btn btn-outline-primary" onclick="getUpdateProduct({{ $d->id }})" data-bs-toggle="modal"
                                         data-bs-target="#update-item"><i class="fa-regular fa-pen-to-square"></i> កែ</button>
                                     <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-item" onclick="getDelete({{ $d->id }})"><i class="fa-regular fa-trash-can"></i> លុប</button>
                                 </td>
@@ -28,6 +28,7 @@
                         @endforeach
                     </tbody>
                 </table>
+                <h1 id="searchProductStatus"></h1>
             </div>
         </div>
     </section>
