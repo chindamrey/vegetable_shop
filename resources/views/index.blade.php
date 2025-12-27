@@ -92,6 +92,7 @@
                                     </tfoot>
     
                                 </table>
+                                <button onclick="loading()">Test</button>
                                 <button class="btn btn-success print-invoice" id="hide-btn"
                                     onclick="printContent('full-invoice'),saleProduct()">ទាញយកវិក្កយបត្រ</button>
                                
@@ -150,6 +151,7 @@
             })
     </script>
     <script src="{{ asset('js/script.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 </body>
 
 </html>

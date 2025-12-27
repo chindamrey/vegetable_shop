@@ -41,7 +41,8 @@ function orderProduct(id) {
 
 }
 //---------------------------------------- create product --------------------------------
-function createProduct() {
+async function createProduct() {
+    loadingToast();
     // alert();
     event.preventDefault();
     let data = {
@@ -49,7 +50,7 @@ function createProduct() {
         p_price: document.getElementById('pPrice').value
     }
     console.log(data);
-    fetch(`/manageProduct/create`, {
+    await fetch(`/manageProduct/create`, {
         method: "post",
         headers: {
             'Content-type': 'application/json',
@@ -59,16 +60,19 @@ function createProduct() {
     })
         .then(res => res.json())
         .then(data => {
-            alert();
-            console.log(data.message);
+            Swal.close();
+            toastSuccess(data.message);
+            // console.log(data.message);
         })
 }
 //------------------------------ get update product id ---------------------------------
-function getUpdateProduct(id) {
+async function getUpdateProduct(id) {
+    
     localStorage.setItem('id', id);
-    fetch(`/product-data/${id}`)
+    await fetch(`/product-data/${id}`)
         .then(response => response.json())
         .then(data => {
+            
             document.getElementById('itemName').value = data.p_name;
             document.getElementById('itemPrice').value = data.p_price;
 
@@ -76,7 +80,8 @@ function getUpdateProduct(id) {
 
 }
 //------------------------------- update product ----------------------------------------
-function updateProduct() {
+async function updateProduct() {
+    loadingToast();
     let id = localStorage.getItem('id');
     let name = document.getElementById('itemName').value;
     let price = document.getElementById('itemPrice').value;
@@ -85,7 +90,7 @@ function updateProduct() {
         'p_price': price
     }
 
-    fetch(`/manageProduct/update/${id}`, {
+    await fetch(`/manageProduct/update/${id}`, {
         method: 'PUT',
         headers: {
             'Content-type': 'application/json',
@@ -95,6 +100,8 @@ function updateProduct() {
     })
         .then(res => res.json())
         .then(data => {
+            Swal.close();
+            toastSuccess(data.message);
             // alert(data.message);
             // location.reload();
         })
@@ -131,11 +138,14 @@ setInterval(() => {
     document.getElementById('time').innerHTML = (`${dateTime()}`);
 }, 60000);
 //----------------------------------------------- get delete -----------------------------------
-function getDelete(id) {
+async function getDelete(id) {
+    loadingToast();
     localStorage.setItem('id', id);
-    fetch(`/product-data/${id}`)
+  await  fetch(`/product-data/${id}`)
         .then(response => response.json())
         .then(data => {
+            Swal.close();
+            toastSuccess(data.message);
             document.getElementById('delete-name').innerText = data.p_name;
             console.log(data.p_name);
         });
@@ -373,7 +383,7 @@ function searchProduct() {
         )
 };
 let invoiceList = document.getElementById('invoice-list');
-
+//--------------------------------------------------search invoice-----------------------------------------------------
 function searchInvoice() {
     let searchValue = document.getElementById('searchInvoice').value;
     axios.get('/invoice/all-invoice/search', {
@@ -403,4 +413,23 @@ function searchInvoice() {
                 </tr>`
             })
         })
+}
+//---------------------------------------------------toast loading ------------------------------------------------------
+function loadingToast(){
+    Swal.fire({
+        title:'កំពុងដំណើរការ...',
+        text:'សូមរង់ចាំ...',
+      
+        // showComfirmFunctionButton:false,
+        // allowOutsideClick:false,
+
+        didOpen:()=>Swal.showLoading()
+    });
+}
+function toastSuccess(textVal) {
+    Swal.fire({
+        title:'ជោគជ័យ',
+        text:textVal,
+        icon:'success'
+    });
 }
