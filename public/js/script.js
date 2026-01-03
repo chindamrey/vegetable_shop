@@ -1,5 +1,7 @@
 // const { default: axios } = require("axios");
 
+// const { default: axios } = require("axios");
+
 let pName;
 let productId;
 let net;
@@ -60,19 +62,22 @@ async function createProduct() {
     })
         .then(res => res.json())
         .then(data => {
+            document.getElementById('pName').value=null;
+            document.getElementById('pPrice').value=null;
             Swal.close();
             toastSuccess(data.message);
+            
             // console.log(data.message);
         })
 }
 //------------------------------ get update product id ---------------------------------
 async function getUpdateProduct(id) {
-    
+
     localStorage.setItem('id', id);
     await fetch(`/product-data/${id}`)
         .then(response => response.json())
         .then(data => {
-            
+
             document.getElementById('itemName').value = data.p_name;
             document.getElementById('itemPrice').value = data.p_price;
 
@@ -139,21 +144,21 @@ setInterval(() => {
 }, 60000);
 //----------------------------------------------- get delete -----------------------------------
 async function getDelete(id) {
-    loadingToast();
+
     localStorage.setItem('id', id);
-  await  fetch(`/product-data/${id}`)
+    await fetch(`/product-data/${id}`)
         .then(response => response.json())
         .then(data => {
-            Swal.close();
-            toastSuccess(data.message);
+
             document.getElementById('delete-name').innerText = data.p_name;
             console.log(data.p_name);
         });
 }
 //--------------------------------------------- delete product ----------------------------------
-function deleteProduct() {
+async function deleteProduct() {
+    loadingToast();
     let id = localStorage.getItem('id');
-    fetch(`/manageProduct/delete/${id}`, {
+    await fetch(`/manageProduct/delete/${id}`, {
         method: "DELETE",
         headers: {
             "X-CSRF-TOKEN": document.querySelector('meta[name="csrf-token"]').getAttribute('content')
@@ -161,7 +166,9 @@ function deleteProduct() {
     })
         .then(res => res.json())
         .then(data => {
-            location.reload();
+            getAllProduct();
+            Swal.close();
+            toastSuccess(data.message);
         })
 }
 //---------------------------------------------- custom invoice ----------------------------------
@@ -370,7 +377,7 @@ function searchProduct() {
                 <td>${element.p_name}</td>
                 <td class="text-center">${element.p_price} <span> រៀល</span></td>
                 <td class="text-end">
-                    <button class="btn btn-outline-warning" onclick="getUpdateProduct(${element.id})" data-bs-toggle="modal"
+                    <button class="btn btn-outline-primary" onclick="getUpdateProduct(${element.id})" data-bs-toggle="modal"
                             data-bs-target="#update-item"><i class="fa-regular fa-pen-to-square"></i> កែ
                     </button>
                     <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-item" onclick="getDelete(${element.id})">
@@ -382,6 +389,28 @@ function searchProduct() {
         }
         )
 };
+//--------------------------------------------------get all product----------------------------------------------------
+const getAllProduct = (async () => {
+    await axios.get('manage-product/product-list')
+        .then(res => {
+            res.data.data.forEach(element => {
+                productList.innerHTML +=
+                    `<tr>
+                <td>${element.p_name}</td>
+                <td class="text-center">${element.p_price} <span> រៀល</span></td>
+                <td class="text-end">
+                    <button class="btn btn-outline-primary" onclick="getUpdateProduct(${element.id})" data-bs-toggle="modal"
+                            data-bs-target="#update-item"><i class="fa-regular fa-pen-to-square"></i> កែ
+                    </button>
+                    <button class="btn btn-outline-danger" data-bs-toggle="modal" data-bs-target="#delete-item" onclick="getDelete(${element.id})">
+                        <i class="fa-regular fa-trash-can"></i> លុប
+                    </button>
+                </td>
+            </tr>`;
+            })
+        })
+
+})
 let invoiceList = document.getElementById('invoice-list');
 //--------------------------------------------------search invoice-----------------------------------------------------
 function searchInvoice() {
@@ -390,19 +419,19 @@ function searchInvoice() {
         params: { q: searchValue }
     })
         .then(res => {
-            invoiceList.innerHTML='';
-             if (res.data.data.length == 0) {
+            invoiceList.innerHTML = '';
+            if (res.data.data.length == 0) {
                 document.getElementById('searchInvoiceStatus').innerHTML = `<h1 class="text-center pt-5 mt-5" style="color:gray">គ្មានទិន្នន័យ</h1>`;
             }
             console.log('clear');
             console.log(res.data)
-            res.data.data.forEach(element=>{
-                invoiceList.innerHTML+=
-                `<tr>
+            res.data.data.forEach(element => {
+                invoiceList.innerHTML +=
+                    `<tr>
                     <td>${element.invoice_id}</td>
-                    <td class="text-center"><span id="invoicePrice">${ element.total}
+                    <td class="text-center"><span id="invoicePrice">${element.total}
                                     </span> រៀល</td>
-                    <td class="text-center">${ element.date }</td>
+                    <td class="text-center">${element.date}</td>
                     <td class="text-end"><button onclick="showInvoice(${element.id})" data-bs-target="#viewInvoice"
                                         data-bs-toggle="modal" class="btn btn-outline-primary"><i
                                             class="fa-regular fa-pen-to-square"></i> មើល</button>
@@ -415,21 +444,21 @@ function searchInvoice() {
         })
 }
 //---------------------------------------------------toast loading ------------------------------------------------------
-function loadingToast(){
+function loadingToast() {
     Swal.fire({
-        title:'កំពុងដំណើរការ...',
-        text:'សូមរង់ចាំ...',
-      
+        title: 'កំពុងដំណើរការ...',
+        text: 'សូមរង់ចាំ...',
+
         // showComfirmFunctionButton:false,
         // allowOutsideClick:false,
 
-        didOpen:()=>Swal.showLoading()
+        didOpen: () => Swal.showLoading()
     });
 }
-function toastSuccess(textVal) {
+function toastSuccess(title,icon,textVal) {
     Swal.fire({
-        title:'ជោគជ័យ',
-        text:textVal,
-        icon:'success'
+        title: title==null ? 'ជោគជ័យ' : title,
+        text: textVal,
+        icon: icon==null ? 'success' : icon
     });
 }

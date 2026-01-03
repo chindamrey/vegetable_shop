@@ -9,6 +9,7 @@ use App\Models\Invoice;
 use App\Models\SaleProduct;
 use ResourceBundle;
 use Symfony\Component\Console\Completion\Output\FishCompletionOutput;
+use function PHPUnit\Framework\isFalse;
 
 class CrudProductController extends Controller
 {
@@ -16,17 +17,32 @@ class CrudProductController extends Controller
     {
         return view('manageProduct.createProduct');
     }
+    public function getAllProductList(){
+        $data=crud_product::orderBy('id','desc')->get();
+        return response()->json([
+            'data'=>$data,
+            
+        ],202);
+    }
     public function createProduct(Request $request) 
     {
+        $duplicate=false;
         $validated=$request->validate([
             'p_name'=>'required|string',
             'p_price'=>'required|numeric'
         ]);
-        $product=crud_product::create($validated);
-        return response()->json([
-            'message'=>'Create product successfully',
-            'data'=>$product
-        ],201);
+        $productNames=crud_product::pluck('p_name')->toArray();
+       $duplicate = in_array($validated['p_name'], $productNames);
+        if($duplicate){
+         return response()->json([
+            'message'=>'duplicate product can not create'
+         ],400) ; 
+        }
+            $product=crud_product::create($validated);
+                return response()->json([
+                    'message'=>'Create product successfully',
+                    'data'=>$product
+                ],201);
     }
     public function getAllProduct()
     {
@@ -34,9 +50,10 @@ class CrudProductController extends Controller
         
         return view('index', compact('data'));
     }
+    
     public function getAllProduct1()
     {
-        $data = crud_product::all();
+        $data = crud_product::orderBy('id','desc')->get();
         return view('manageProduct.allProduct', compact('data'));
     }
     public function getProduct($id)

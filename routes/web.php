@@ -7,7 +7,10 @@ use Illuminate\Support\Facades\Route;
 
 Route::get('/index',[CrudProductController::class,'getAllProduct']);
 Route::get('/product-data/{id}',[CrudProductController::class,'getProduct']);
+//------------------------------------get all product----------------------------
 Route::get('/manageProduct/allProduct',[CrudProductController::class,'getAllProduct1']);
+//------------------------------------get all product list ----------------------
+Route::get('manage-product/product-list',[CrudProductController::class,'getAllProductList']);
 Route::put('/manageProduct/update/{id}',[CrudProductController::class,'update']);
 Route::delete('/manageProduct/delete/{id}',[CrudProductController::class,'delete']);
 Route::post( '/manageProduct/create',[CrudProductController::class,'createProduct']);

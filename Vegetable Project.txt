@@ -39,10 +39,11 @@ on 13/12/2025
 
   - add last change on page list product like u change something like : price 
 
-  - show new product on top
 
   - toast loading
 
-  - new product and invoice go to top depend on date create it
+  - show new product on top​ : done
 
-  - page gination
+  - page gination : pending
+
+  - product should not duplicate : pending
